@@ -10,6 +10,7 @@ use Session;
 use App\Category;
 use App\Product;
 use App\ProductsAttribute;
+use DB;
 
 class ProductsController extends Controller
 {
@@ -142,8 +143,10 @@ class ProductsController extends Controller
     }
 
     public function addAttribute(Request $request,$product_id = null){
-    	$product_details = Product::with('attributes')->where(['product_id'=>$product_id])->first();
-
+        $product_details = Product::with('attributes')->where(['product_id'=>$product_id])->first();
+        // $product_details = json_decode(json_encode($product_details));
+        // echo "<pre>";  print_r($product_details);die;
+        
     	if($request->isMethod('post')){
     		$data = $request->all();
     		foreach ($data['sku'] as $key => $val) {
@@ -160,7 +163,7 @@ class ProductsController extends Controller
 
     		return redirect('/admin/add-attribute/'.$product_id)->with('flash_message_success','Product Attributes has been added successfully!');
     	}
-    	
+
     	return view('admin.products.add_attribute',['product_details'=>$product_details]);
     }
 

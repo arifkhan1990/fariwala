@@ -58,10 +58,10 @@
                 <label class="control-label"></label>
                 <div class="field_wrapper">
                   <div>
-                    <input type="text" name="sku[]" id="sku" placeholder="SKU" style="width: 120px;" />
-                    <input type="text" name="size[]" id="size" placeholder="Size" style="width: 120px;margin-left: 7px;" />
-                    <input type="text" name="price[]" id="price" placeholder="Price" style="width: 120px;margin-left: 7px;" />
-                    <input type="text" name="stock[]" id="stock" placeholder="Stock" style="width: 120px;margin-left: 7px;" />
+                    <input required="" type="text" name="sku[]" id="sku" placeholder="SKU" style="width: 120px;" />
+                    <input required="" type="text" name="size[]" id="size" placeholder="Size" style="width: 120px;margin-left: 7px;" />
+                    <input required="" type="text" name="price[]" id="price" placeholder="Price" style="width: 120px;margin-left: 7px;" />
+                    <input required="" type="text" name="stock[]" id="stock" placeholder="Stock" style="width: 120px;margin-left: 7px;" />
                     <a href="javascript:void(0);" class="add_button" title="Add field"> Add</a>
                   </div>
                 </div>
