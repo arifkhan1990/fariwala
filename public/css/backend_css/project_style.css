@@ -1,0 +1,8 @@
+.mdleft{
+	float: left;
+	width: 45%;
+}
+.mdright{
+	float: right;
+	width: 45%;
+}
