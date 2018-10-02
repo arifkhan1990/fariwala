@@ -15,8 +15,11 @@
 //     return view('welcome');
 // });
 
+//Here All Frontend route
 Route::get('/','IndexController@index');
 
+
+//Here all Backend route
 Route::match(['get','post'],'/admin','AdminController@login');
 
 
@@ -33,14 +36,15 @@ Route::group(['middleware' => ['auth']], function(){
     //category route here ....................
     Route::match(['get','post'],'/admin/add-category','CategoryController@addCategory');
     Route::get('/admin/view-all-categories','CategoryController@viewAllCategories');
-    Route::match(['get','post'],'/admin/edit-category/{category_id}','CategoryController@editCategory');
-    Route::get('/admin/delete-category/{category_id}','CategoryController@deleteCategory');
+    Route::match(['get','post'],'/admin/edit-category/{id}','CategoryController@editCategory');
+    Route::get('/admin/delete-category/{id}','CategoryController@deleteCategory');
     //product route here ....................
     Route::match(['get','post'],'/admin/add-product','ProductsController@addProduct');
     Route::get('/admin/view-all-products','ProductsController@viewAllProduct');
-    Route::match(['get','post'],'/admin/edit-product/{product_id}','ProductsController@editProduct');
-    Route::get('/admin/delete-product_image/{product_id}','ProductsController@deleteProductImage');
-    Route::get('/admin/delete-product/{product_id}','ProductsController@deleteProduct');
+    Route::match(['get','post'],'/admin/edit-product/{id}','ProductsController@editProduct');
+    Route::get('/admin/delete-product_image/{id}','ProductsController@deleteProductImage');
+    Route::get('/admin/delete-product/{id}','ProductsController@deleteProduct');
     //Products Attribute route here..........................
-    Route::match(['get','post'],'/admin/add-attribute/{product_id}','ProductsController@addAttribute');
+    Route::match(['get','post'],'/admin/add-attribute/{id}','ProductsController@addAttribute');
+    Route::get('/admin/delete-attribute/{id}','ProductsController@deleteAttribute');
 });

@@ -13,7 +13,7 @@
             <h5>Edit Category</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="{{ url('/admin/edit-category/'.$category_details->category_id) }}" name="add_category" id="add_category" novalidate="novalidate">
+            <form class="form-horizontal" method="post" action="{{ url('/admin/edit-category/'.$category_details->id) }}" name="add_category" id="add_category" novalidate="novalidate">
               {{ csrf_field() }}
               <div class="control-group">
                 <label class="control-label">Category Name</label>
@@ -28,7 +28,7 @@
                   <select name="parent_id" style="width: 220px;">
                     <option value="0">Main Category</option>
                     <?php foreach ($levels as $subCategory): ?>
-                      <option value="{{ $subCategory->category_id}}" @if($subCategory->category_id==$category_details->parent_id) selected @endif>{{ $subCategory->category_name}}</option>
+                      <option value="{{ $subCategory->id}}" @if($subCategory->category_id==$category_details->parent_id) selected @endif>{{ $subCategory->category_name}}</option>
                     <?php endforeach ?>
                   </select>
                 </div>

@@ -42,7 +42,7 @@
               <tbody>
                 
                 <tr class="gradeX">
-                  <td>{{ $category->category_id }}</td>
+                  <td>{{ $category->id }}</td>
                   <td>{{ $category->category_name }}</td>
                   <td>{{ $category->parent_id }}</td>
                   <td>{{ $category->category_description }}</td>
@@ -60,8 +60,8 @@
                     @else 
                     <a href="" class="btn btn-success"><i class="halflings-icon white  icon-thumbs-up"></i></a>
                     @endif
-                    <a href="{{ url('/admin/edit-category/'.$category->category_id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
-                    <a rel="{{ $category->category_id }}" rel1="delete-category" <?php /*href ="{{ url('/admin/delete-category/'.$category->category_id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
+                    <a href="{{ url('/admin/edit-category/'.$category->id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
+                    <a rel="{{ $category->id }}" rel1="delete-category" <?php /*href ="{{ url('/admin/delete-category/'.$category->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
                   </td>
                 </tr>
               </tbody>

@@ -28,25 +28,25 @@ class CategoryController extends Controller
     	return view('admin.categories.view_all_categories',['categories_info'=>$categories_info]);
     }
 
-    public function editCategory(Request $request, $category_id = null){
+    public function editCategory(Request $request, $id = null){
     	if($request->isMethod('post')){
     		$data = array();
     		$data['category_name'] = $request->category_name;
     		$data['parent_id'] = $request->parent_id;
     		$data['category_description'] = $request->category_description;
     		$data['category_url'] = $request->category_url;
-    		Category::where(['category_id'=>$category_id])->update($data);
+    		Category::where(['id'=>$id])->update($data);
 
     		return redirect('/admin/view-all-categories')->with('flash_message_success','Category Updated Successfully!');
     	}
-    	$category_details = Category::where(['category_id'=>$category_id])->first();
+    	$category_details = Category::where(['id'=>$id])->first();
     	$levels = Category::where(['parent_id'=>0])->get();
     	return view('admin.categories.edit_category',['category_details'=>$category_details,'levels'=>$levels]);
     }
 
-    public function deleteCategory($category_id=null){
-    	if(!empty($category_id)){
-    		Category::where(['category_id'=>$category_id])->delete();
+    public function deleteCategory($id=null){
+    	if(!empty($id)){
+    		Category::where(['id'=>$id])->delete();
     		return redirect()->back()->with('flash_message_success','Category Deleted Successfully!');
     	}
     }

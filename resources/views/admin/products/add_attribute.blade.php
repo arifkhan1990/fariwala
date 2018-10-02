@@ -25,9 +25,9 @@
             <h5>Add Product Attributes</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="{{ url('/admin/add-attribute/'.$product_details->product_id) }}" name="add_attribute" id="add_attribute" novalidate="novalidate" enctype="multipart/form-data">
+            <form class="form-horizontal" method="post" action="{{ url('/admin/add-attribute/'.$product_details->id) }}" name="add_attribute" id="add_attribute" novalidate="novalidate" enctype="multipart/form-data">
               {{ csrf_field() }}
-              <input type="hidden" name="product_id" value="{{ $product_details->product_id }}">
+              <input type="hidden" name="product_id" value="{{ $product_details->id }}">
               <div class="control-group">
                 <label class="control-label">Product Name</label>
                 <label class="control-label"><strong>{{$product_details->product_name}}</strong></label>
@@ -86,7 +86,7 @@
             <table class="table table-bordered data-table">
               <thead>
                 <tr>
-                  <th>Attribute Id</th>
+                  <th>Id</th>
                   <th>SKU</th>
                   <th>Size</th>
                   <th>Price</th>
@@ -97,13 +97,13 @@
               <tbody>
                 @foreach($product_details['attributes'] as $product)
                 <tr class="gradeX">
-                  <td>{{ $product->attribute_id }}</td>
+                  <td>{{ $product->id }}</td>
                   <td>{{ $product->sku }}</td>
                   <td>{{ $product->size }}</td>
                   <td>{{ $product->price }}</td>
                   <td>{{ $product->stock }}</td>
                   <td>
-                    <a rel="{{ $product->id }}" rel1="delete-product" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
+                    <a rel="{{ $product->id }}" rel1="delete-attribute" href="javascript:void" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
                   </td>
                 </tr>
                @endforeach  

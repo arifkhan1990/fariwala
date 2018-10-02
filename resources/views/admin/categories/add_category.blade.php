@@ -28,7 +28,7 @@
                 	<select name="parent_id" style="width: 220px;">
                 		<option value="0">Main Category</option>
                 		<?php foreach ($levels as $subCategory): ?>
-                			<option value="{{ $subCategory->category_id}}">{{ $subCategory->category_name}}</option>
+                			<option value="{{ $subCategory->id}}">{{ $subCategory->category_name}}</option>
                 		<?php endforeach ?>
                 	</select>
                 </div>

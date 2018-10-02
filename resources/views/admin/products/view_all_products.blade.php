@@ -64,16 +64,16 @@
                     @else 
                     <a href="" class="btn btn-success"><i class="halflings-icon white  icon-thumbs-up"></i></a>
                     @endif
-                    <a href="#myModal{{$product->product_id}}" data-toggle="modal" class="btn btn-primary" id="view_product"><i class="halflings-icon white icon-eye-open"></i></a>
+                    <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-primary" id="view_product"><i class="halflings-icon white icon-eye-open"></i></a>
 
-                    <a href="{{ url('/admin/add-attribute/'.$product->product_id )}}" class="btn btn-info"><i class="halflings-icon white icon-plus"></i></a>
+                    <a href="{{ url('/admin/add-attribute/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-plus"></i></a>
 
-                    <a href="{{ url('/admin/edit-product/'.$product->product_id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
-                    <a rel="{{ $product->product_id }}" rel1="delete-product" <?php /*href ="{{ url('/admin/delete-product/'.$product->product_id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
+                    <a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
+                    <a rel="{{ $product->id }}" rel1="delete-product" <?php /*href ="{{ url('/admin/delete-product/'.$product->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
                   </td>
                 </tr>
               </tbody>
-              <div id="myModal{{$product->product_id}}" class="modal hide" style="display: none;" aria-hidden="true">
+              <div id="myModal{{$product->id}}" class="modal hide" style="display: none;" aria-hidden="true">
                 <div class="modal-header">
                   <button data-dismiss="modal" class="close" type="button">×</button>
                   <h3><strong>{{ $product->product_name }} -> </strong>Full Details</h3>

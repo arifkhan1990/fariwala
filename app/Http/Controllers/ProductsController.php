@@ -53,10 +53,10 @@ class ProductsController extends Controller
     	$categories = Category::where(['parent_id'=>0])->get();
     	$categories_dropdown = "<option selected disabled>Select</option>";
     	foreach ($categories as $val) {
-    		$categories_dropdown .="<option value='".$val->category_id."'>".$val->category_name."</option>";
-    		$sub_categories = Category::where(['parent_id'=>$val->category_id])->get();
+    		$categories_dropdown .="<option value='".$val->id."'>".$val->category_name."</option>";
+    		$sub_categories = Category::where(['parent_id'=>$val->id])->get();
     		foreach ($sub_categories as $sub_val) {
-    			$categories_dropdown .= "<option value= '".$sub_val->category_id."'>&nbsp;--&nbsp;".$sub_val->category_name."</option>";
+    			$categories_dropdown .= "<option value= '".$sub_val->id."'>&nbsp;--&nbsp;".$sub_val->category_name."</option>";
     		}
     	}
     	return view('admin.products.add_product',['category_dropdown'=>$categories_dropdown]);
@@ -65,13 +65,13 @@ class ProductsController extends Controller
     public function viewAllProduct(){
     	$products_info = Product::get();
     	foreach ($products_info as $key => $val) {
-    		$category_name = Category::where(['category_id'=>$val->category_id])->first();
+    		$category_name = Category::where(['id'=>$val->id])->first();
     		$products_info[$key]->category_name = $category_name->category_name;
     	}
     	return view('admin.products.view_all_products',['products_info'=>$products_info]);
     }
 
-    public function editProduct(Request $request, $product_id=null){
+    public function editProduct(Request $request, $id=null){
 
      	if($request->isMethod('post')){
     		$data = array();
@@ -102,48 +102,48 @@ class ProductsController extends Controller
     			$data['product_image'] = $current_image;
     		}
 
-    		Product::where(['product_id'=>$product_id])->update($data);
+    		Product::where(['id'=>$id])->update($data);
 
     		return redirect('/admin/view-all-products')->with('flash_message_success','Product has been Updated Successfully!');
     	}
 
-    	$product_details = Product::where(['product_id'=>$product_id])->first();
+    	$product_details = Product::where(['id'=>$id])->first();
     	//category dropdown ..........
     	$categories = Category::where(['parent_id'=>0])->get();
     	$categories_dropdown = "<option selected disabled>Select</option>";
     	foreach ($categories as $val) {
-    		if($val->category_id == $product_details->category_id){
+    		if($val->id == $product_details->category_id){
     			$selected = "selected";
     		}else{
     			$selected = "";
     		}
-    		$categories_dropdown .="<option value='".$val->category_id."'".$selected.">".$val->category_name."</option>";
-    		$sub_categories = Category::where(['parent_id'=>$val->category_id])->get();
+    		$categories_dropdown .="<option value='".$val->id."'".$selected.">".$val->category_name."</option>";
+    		$sub_categories = Category::where(['parent_id'=>$val->id])->get();
     		foreach ($sub_categories as $sub_val) {
-    		    if($sub_val->category_id == $product_details->category_id){
+    		    if($sub_val->id == $product_details->category_id){
     			    $selected = "selected";
     		    }else{
     			    $selected = "";
     		    }
-    			$categories_dropdown .= "<option value= '".$sub_val->category_id."'".$selected.">&nbsp;--&nbsp;".$sub_val->category_name."</option>";
+    			$categories_dropdown .= "<option value= '".$sub_val->id."'".$selected.">&nbsp;--&nbsp;".$sub_val->category_name."</option>";
     		}
     	}
 
     	return view('admin.products.edit_product',['product_details'=>$product_details,'category_dropdown'=>$categories_dropdown]);    	
     }
 
-    public function deleteProductImage($product_id = null){
-    	Product::where(['product_id'=>$product_id])->update(['product_image'=>'']);
+    public function deleteProductImage($id = null){
+    	Product::where(['id'=>$id])->update(['product_image'=>'']);
     	return redirect()->back()->with('flash_message_success','Product Image has been deleted successfully!');
     }
 
-    public function deleteProduct($product_id = null){
-    	Product::where(['product_id'=>$product_id])->delete();
+    public function deleteProduct($id = null){
+    	Product::where(['id'=>$id])->delete();
     	return redirect()->back()->with('flash_message_success','Product has been deleted successfully!');
     }
 
-    public function addAttribute(Request $request,$product_id = null){
-        $product_details = Product::with('attributes')->where(['product_id'=>$product_id])->first();
+    public function addAttribute(Request $request,$id = null){
+        $product_details = Product::with('attributes')->where(['id'=>$id])->first();
         // $product_details = json_decode(json_encode($product_details));
         // echo "<pre>";  print_r($product_details);die;
         
@@ -152,7 +152,7 @@ class ProductsController extends Controller
     		foreach ($data['sku'] as $key => $val) {
     			if(!empty($val)){
     				$attribute = new ProductsAttribute;
-    				$attribute->product_id = $product_id;
+    				$attribute->product_id = $id;
     				$attribute->sku  = $val;
     				$attribute->size = $data['size'][$key];
     				$attribute->price = $data['price'][$key];
@@ -161,10 +161,15 @@ class ProductsController extends Controller
     			}
     		}
 
-    		return redirect('/admin/add-attribute/'.$product_id)->with('flash_message_success','Product Attributes has been added successfully!');
+    		return redirect('/admin/add-attribute/'.$id)->with('flash_message_success','Product Attributes has been added successfully!');
     	}
 
     	return view('admin.products.add_attribute',['product_details'=>$product_details]);
+    }
+
+    public function deleteAttribute($id = null){
+        ProductsAttribute::where(['id'=>$id])->delete();
+        return redirect()->back()->with('flash_message_success','Attribute has been deleted successfully!');
     }
 
 }

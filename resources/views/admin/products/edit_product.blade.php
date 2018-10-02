@@ -25,7 +25,7 @@
             <h5>Edit Product</h5>
           </div>
           <div class="widget-content nopadding">
-            <form class="form-horizontal" method="post" action="{{ url('/admin/edit-product/'.$product_details->product_id) }}" name="add_product" id="add_product" novalidate="novalidate" enctype="multipart/form-data">
+            <form class="form-horizontal" method="post" action="{{ url('/admin/edit-product/'.$product_details->id) }}" name="add_product" id="add_product" novalidate="novalidate" enctype="multipart/form-data">
               {{ csrf_field() }}
 
               <div class="control-group">
@@ -78,7 +78,7 @@
                   <input type="file" name="product_image" id="product_image" class="input-file uniform-on">
                   <input type="hidden" name="current_image" value="{{ $product_details->product_image }}">
                   @if(!empty($product_details->product_image))
-                  <img src="{{ url('images/backend_images/products/small/'.$product_details->product_image) }}" style="width: 30px;"> | <a href="{{ url('/admin/delete-product_image/'.$product_details->product_id)}}">Delete</a>
+                  <img src="{{ url('images/backend_images/products/small/'.$product_details->product_image) }}" style="width: 30px;"> | <a href="{{ url('/admin/delete-product_image/'.$product_details->id)}}">Delete</a>
                   @endif
                 </div>
               </div>
