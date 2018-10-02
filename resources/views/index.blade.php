@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('layouts.frontendLayout.frontend_design')
 @section('content')
 	<section id="slider"><!--slider-->
@@ -757,6 +756,3 @@
 		</div>
 	</section>
 @endsection
-=======
-<h1>Hi , Welcome my E-commerce site!</h1>
->>>>>>> 1e62836538a91550ddc40b762d1e98cef55ad8cc
