@@ -1,3 +1,8 @@
+<?php 
+use App\Http\Controllers\Controller;
+
+$mainCategories = Controller::mainCategories();
+ ?>
 	<header id="header"><!--header-->
 		<div class="header_top"><!--header_top-->
 			<div class="container">
@@ -88,11 +93,9 @@
 								<li><a href="index.html" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+                                    	@foreach($mainCategories as $cat)
+                                        <li><a href="{{ url('/products/'.$cat->category_url) }}">{{ $cat->category_name }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>

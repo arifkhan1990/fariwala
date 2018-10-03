@@ -44,7 +44,7 @@
               <tbody>
                 
                 <tr class="gradeX">
-                  <td>{{ $product->product_id }}</td>
+                  <td>{{ $product->id }}</td>
                   <td><img src="{{ url('images/backend_images/products/small/'.$product->product_image) }}" style="width: 80px;height: 80px;"></td>
                   <td>{{ $product->category_name }}</td>
                   <td>{{ $product->product_name }}</td>

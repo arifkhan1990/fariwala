@@ -64,9 +64,11 @@ class ProductsController extends Controller
 
     public function viewAllProduct(){
     	$products_info = Product::get();
+        // $products_info  = json_decode(json_encode($products_info));
+        // echo "<pre>";print_r($products_info);die;
     	foreach ($products_info as $key => $val) {
-    		$category_name = Category::where(['id'=>$val->id])->first();
-    		$products_info[$key]->category_name = $category_name->category_name;
+    		$category_name = Category::where(['id'=>$val->category_id])->first();
+            $products_info[$key]->category_name = $category_name->category_name;
     	}
     	return view('admin.products.view_all_products',['products_info'=>$products_info]);
     }
@@ -172,4 +174,23 @@ class ProductsController extends Controller
         return redirect()->back()->with('flash_message_success','Attribute has been deleted successfully!');
     }
 
+    public function products($url = null){
+        //Get all categories and sub categories
+        $categories = Category::with('categories')->where(['parent_id'=>0])->get();
+        $category_details = Category::where(['category_url'=>$url])->first();
+
+        if($category_details->parent_id == 0){
+            //if url is main category url
+            $sub_categories = Category::where(['parent_id'=>$category_details->id])->get();
+            foreach ($sub_categories as $subcat) {
+                $cat_ids[] = $subcat->id;
+            }
+            $allProducts = Product::whereIn('category_id',$cat_ids)->get();
+        }else{
+            //if url is sub category url
+            $allProducts = Product::where(['category_id'=>$category_details->id])->get();
+        }
+
+        return view('admin.products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
+    }
 }

@@ -86,7 +86,7 @@
 									<div class="panel-body">
 										<ul>
 											@foreach($cat->categories as $subcat)
-											<li><a href="#">{{ $subcat->category_name }}</a></li>
+											<li><a href="{{ asset('/products/'.$subcat->category_url)}}">{{ $subcat->category_name }}</a></li>
 											@endforeach
 										</ul>
 									</div>

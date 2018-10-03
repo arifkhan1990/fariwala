@@ -16,6 +16,7 @@
 // });
 
 //Here All Frontend route
+// Home pages
 Route::get('/','IndexController@index');
 
 
@@ -26,6 +27,10 @@ Route::match(['get','post'],'/admin','AdminController@login');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Category / Listing Page
+Route::get('/products/{category_url}','ProductsController@products');
+
 Route::group(['middleware' => ['auth']], function(){
 	Route::get('/admin/dashboard','AdminController@dashboard');
 	Route::get('/settings','AdminController@settings');
