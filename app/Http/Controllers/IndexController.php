@@ -13,17 +13,17 @@ class IndexController extends Controller
     	// $allProducts = Product::get(); orderby defualt asceding 
     	$allProducts = Product::inRandomOrder()->get();
         //Get all categories and sub categories
-        $categories = Category::with('categories')->where('parent_id',0)->get();
-        $categories = json_decode(json_encode($categories));
-        echo "<pre>";print_r($categories);die;
-        foreach ($categories as $cat) {
-        	echo $cat->category_name;echo "<br>";
-        	$sub_categories = Category::where('parent_id',$cat->category_id)->get();
-        	foreach ($sub_categories as $subcat) {
-        		echo $subcat->category_name;echo "<br>";
-        	}
-        }
-        die;
-    	return view('index',['allProducts'=>$allProducts]);
+        $categories = Category::with('categories')->where(['parent_id'=>0])->get();
+        // $categories = json_decode(json_encode($categories));
+        // echo "<pre>";print_r($categories);die;
+        // foreach ($categories as $cat) {
+        // 	echo $cat->category_name;echo "<br>";
+        // 	$sub_categories = Category::where('parent_id',$cat->category_id)->get();
+        // 	foreach ($sub_categories as $subcat) {
+        // 		echo $subcat->category_name;echo "<br>";
+        // 	}
+        // }
+        // die;
+    	return view('index',['allProducts'=>$allProducts,'categories'=>$categories]);
     }
 }
