@@ -13,7 +13,7 @@ class IndexController extends Controller
     	// $allProducts = Product::get(); orderby defualt asceding 
     	$allProducts = Product::inRandomOrder()->get();
         //Get all categories and sub categories
-        $categories = Category::with('categories')->where(['parent_id'=>0])->get();
+        $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
         // $categories = json_decode(json_encode($categories));
         // echo "<pre>";print_r($categories);die;
         // foreach ($categories as $cat) {

@@ -48,6 +48,13 @@
                 </div>
               </div>
 
+              <div class="control-group">
+                <label class="control-label">Publication Status</label>
+                <div class="controls">
+                  <input type="checkbox" name="category_status" id="category_status" value="1">
+                </div>
+              </div>
+
               <div class="form-actions">
                 <input type="submit" value="Add Category" class="btn btn-success">
               </div>

@@ -86,7 +86,9 @@
 									<div class="panel-body">
 										<ul>
 											@foreach($cat->categories as $subcat)
+											@if($subcat->category_status == 1)
 											<li><a href="{{ $subcat->category_url }}">{{ $subcat->category_name }}</a></li>
+											@endif
 											@endforeach
 										</ul>
 									</div>

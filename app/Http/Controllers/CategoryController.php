@@ -10,11 +10,18 @@ class CategoryController extends Controller
     public function addCategory(Request $request){
     	if($request->isMethod('post')){
     		$data = $request->all();
+            if(empty($data['category_status'])){
+                $category_status = 0;
+            }else{
+                $category_status = 1;
+            }
+
             $category = new Category;
             $category->category_name = $data['category_name'];
             $category->parent_id = $data['parent_id'];
             $category->category_description = $data['category_description'];
             $category->category_url = $data['category_url'];
+            $category->category_status = $data['category_status'];
             $category->save();
             return redirect('/admin/view-all-categories')->with('flash_message_success','Category Added Successfully!');
     	}
@@ -42,6 +49,16 @@ class CategoryController extends Controller
     	$category_details = Category::where(['id'=>$id])->first();
     	$levels = Category::where(['parent_id'=>0])->get();
     	return view('admin.categories.edit_category',['category_details'=>$category_details,'levels'=>$levels]);
+    }
+
+    public function unactiveCategory($id = null){
+         Category::where('id',$id)->update(['category_status' => 0]);
+         return redirect()->back()->with('flash_message_success','Category Unactive successfully !!');
+    }
+
+    public function activeCategory($id){
+         Category::where('id',$id)->update(['category_status' => 1]);
+         return redirect()->back()->with('flash_message_success','Category Active successfully !!');
     }
 
     public function deleteCategory($id=null){

@@ -42,6 +42,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::match(['get','post'],'/admin/add-category','CategoryController@addCategory');
     Route::get('/admin/view-all-categories','CategoryController@viewAllCategories');
     Route::match(['get','post'],'/admin/edit-category/{id}','CategoryController@editCategory');
+    Route::get('/admin/unactive-category/{id}','CategoryController@unactiveCategory');
+    Route::get('/admin/active-category/{id}','CategoryController@activeCategory');
     Route::get('/admin/delete-category/{id}','CategoryController@deleteCategory');
     //product route here ....................
     Route::match(['get','post'],'/admin/add-product','ProductsController@addProduct');
