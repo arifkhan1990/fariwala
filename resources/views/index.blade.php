@@ -138,14 +138,14 @@
 											<img src="{{ asset('images/backend_images/products/small/'. $product->product_image )}}" alt="" />
 											<h2>{{ $product->product_price }} Tk.</h2>
 											<p>{{ $product->product_name }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="{{ url('/product/'.$product->id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
 												<img src="{{ asset('images/backend_images/products/small/'. $product->product_image )}}" alt="" />
-												<h2>$56</h2>
-												<p>Easy Polo Black Edition</p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											    <h2>{{ $product->product_price }} Tk.</h2>
+											    <p>{{ $product->product_name }}</p>
+												<a href="{{ url('/product/'.$product->id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>
 										</div>
 								</div>

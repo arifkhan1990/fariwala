@@ -211,6 +211,7 @@ class ProductsController extends Controller
 
         if($category_details->parent_id == 0){
             //if url is main category url
+            $cat_ids = array();
             $sub_categories = Category::where(['parent_id'=>$category_details->id])->get();
             foreach ($sub_categories as $subcat) {
                 $cat_ids[] = $subcat->id;
@@ -222,5 +223,13 @@ class ProductsController extends Controller
         }
 
         return view('admin.products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
+    }
+
+    public function viewProductDetail($id = null){
+        //Get product details
+        $product_details = Product::where(['id'=>$id])->first();
+        $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
+        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories]);
+
     }
 }

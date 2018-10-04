@@ -23,10 +23,10 @@
 
 <body>
 	@include('layouts.frontendLayout.frontend_header')
-   
-    @yield('content')
 
-    @include('layouts.frontendLayout.frontend_footer')
+  @yield('content')
+ 
+  @include('layouts.frontendLayout.frontend_footer')
 
   <script src="{{ asset('js/frontend_js/jquery.js')}}"></script>
   <script src="{{ asset('js/frontend_js/bootstrap.min.js')}}"></script>
