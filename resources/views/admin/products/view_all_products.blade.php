@@ -60,17 +60,19 @@
                   </td>
                   <td>
                     @if($product->product_status==1)
-                    <a href="" class="btn btn-danger"><i class="halflings-icon white  icon-thumbs-down"></i></a>
+                    <a href="" class="btn btn-success" title="Product Unactive"><i class="halflings-icon white  icon-thumbs-down"></i></a>
                     @else 
-                    <a href="" class="btn btn-success"><i class="halflings-icon white  icon-thumbs-up"></i></a>
+                    <a href="" class="btn btn-danger" title="Product Active"><i class="halflings-icon white  icon-thumbs-up"></i></a>
                     @endif
-                    <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-primary" id="view_product"><i class="halflings-icon white icon-eye-open"></i></a>
+                    <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-primary" id="view_product" title="Product View"><i class="halflings-icon white icon-eye-open"></i></a>
 
-                    <a href="{{ url('/admin/add-attribute/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-plus"></i></a>
+                    <a href="{{ url('/admin/add-attribute/'.$product->id )}}" class="btn btn-info" title="Add  Product Attribute"><i class="halflings-icon white icon-plus"></i></a>
 
-                    <a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
+                    <a href="{{ url('/admin/add-image/'.$product->id )}}" class="btn btn-primary" title="Add  Product Image"><i class="halflings-icon white icon-camera"></i></a>
 
-                    <a rel="{{ $product->id }}" rel1="delete-product" <?php /*href ="{{ url('/admin/delete-product/'.$product->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
+                    <a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-info" title="Edit Product"><i class="halflings-icon white icon-edit"></i></a>
+
+                    <a rel="{{ $product->id }}" rel1="delete-product" <?php /*href ="{{ url('/admin/delete-product/'.$product->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash" title="Delete Product"></i></a>
 
                   </td>
                 </tr>

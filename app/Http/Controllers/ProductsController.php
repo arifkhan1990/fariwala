@@ -11,7 +11,7 @@ use App\Category;
 use App\Product;
 use App\ProductsAttribute;
 use DB;
-
+use App\ProductsImage;
 class ProductsController extends Controller
 {
     public function addProduct(Request $request){
@@ -226,6 +226,37 @@ class ProductsController extends Controller
     	return view('admin.products.add_attribute',['product_details'=>$product_details]);
     }
 
+    public function addImage(Request $request,$id = null){
+        $product_details = Product::with('attributes')->where(['id'=>$id])->first();
+        // $product_details = json_decode(json_encode($product_details));
+        // echo "<pre>";  print_r($product_details);die;
+        
+        if($request->isMethod('post')){
+            $data = $request->all();
+            if($request->hasFile('product_images')){
+                $files = $request->file('product_images');
+                foreach ($files as $file) {
+                    $image = new ProductsImage;
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = rand(111,99999).'.'.$extension;
+                    $large_image_path = 'images/backend_images/products/large/'.$filename;
+                    $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                    $small_image_path = 'images/backend_images/products/small/'.$filename;
+                    //resize images
+                    Image::make($file)->save($large_image_path);
+                    Image::make($file)->resize(600,600)->save($medium_image_path);
+                    Image::make($file)->resize(300,300)->save($small_image_path);
+                    $image->product_images = $filename;
+                    $image->product_id = $data['product_id'];
+                    $image->save();
+                }
+            }
+            return redirect()->back()->with('flash_message_success','Product Images has been added successfully');
+        }
+
+        return view('admin.products.add_images',['product_details'=>$product_details]);
+    }
+    
     public function deleteAttribute($id = null){
         ProductsAttribute::where(['id'=>$id])->delete();
         return redirect()->back()->with('flash_message_success','Attribute has been deleted successfully!');

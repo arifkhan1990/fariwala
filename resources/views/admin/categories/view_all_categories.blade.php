@@ -56,16 +56,16 @@
                   </td>
                   <td>
                     @if($category->category_status==1)
-                    <a class="btn btn-danger" href="{{ url('/admin/unactive-category/'.$category->id) }}">
-                    <i class="halflings-icon white icon-thumbs-down"></i>  
+                    <a class="btn btn-success" href="{{ url('/admin/unactive-category/'.$category->id) }}" title="Category Unactive">
+                    <i class="halflings-icon white icon-thumbs-up"></i>  
                     </a>
                     @else
-                    <a class="btn btn-success" href="{{ url('/admin/active-category/'.$category->id) }}">
-                    <i class="halflings-icon icon-thumbs-up"></i>  
+                    <a class="btn btn-danger" href="{{ url('/admin/active-category/'.$category->id) }}" title="Category Active">
+                    <i class="halflings-icon icon-thumbs-down"></i>  
                     </a>
                     @endif
-                    <a href="{{ url('/admin/edit-category/'.$category->id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
-                    <a rel="{{ $category->id }}" rel1="delete-category" <?php /*href ="{{ url('/admin/delete-category/'.$category->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
+                    <a href="{{ url('/admin/edit-category/'.$category->id )}}" class="btn btn-info" title="Edit Category"><i class="halflings-icon white icon-edit"></i></a>
+                    <a rel="{{ $category->id }}" rel1="delete-category" <?php /*href ="{{ url('/admin/delete-category/'.$category->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash" title="Delete Category"></i></a>
                   </td>
                 </tr>
               </tbody>
