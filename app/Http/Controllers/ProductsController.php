@@ -26,9 +26,19 @@ class ProductsController extends Controller
     		$product->product_name = $data['product_name'];
     		$product->product_code = $data['product_code'];
     		$product->product_color = $data['product_color'];
-    		$product->product_description = $data['product_description'];
+            if(!empty($data['product_description'])){
+                $product->product_description = $data['product_description'];
+            }else{
+                $product->product_description = "Good for nothings!.";
+            }
+
+    		if(!empty($data['product_care'])){
+                $product->product_care = $data['product_care'];
+            }else{
+                $product->product_care = "Good for nothings!.";
+            }
+
     		$product->product_price = $data['product_price'];
-    		$product->product_size = $data['product_size'];
     		//uplpad image
     		if($request->hasFile('product_image')){
     			$image_tmp = Input::file('product_image');
@@ -63,7 +73,7 @@ class ProductsController extends Controller
     }
 
     public function viewAllProduct(){
-    	$products_info = Product::get();
+    	$products_info = Product::orderBy('id','DESC')->get();
         // $products_info  = json_decode(json_encode($products_info));
         // echo "<pre>";print_r($products_info);die;
     	foreach ($products_info as $key => $val) {
@@ -81,9 +91,20 @@ class ProductsController extends Controller
     		$data['product_name'] = $request->product_name;
     		$data['product_code'] = $request->product_code;
     		$data['product_color'] = $request->product_color;
-    		$data['product_description'] = $request->product_description;
+
+            if(empty($request->product_description)){
+                $data['product_description'] = "Good for nothings!.";
+            }else{
+                $data['product_description'] = $request->product_description;
+            }
+
+            if(empty($request->product_care)){
+                $data['product_care'] = "Good for nothings!.";
+            }else{
+                $data['product_care'] = $request->product_care;
+            }
+
     		$data['product_price'] = $request->product_price;
-    		$data['product_size'] = $request->product_size;
 
     		if($request->hasFile('product_image')){
     			$image_tmp = Input::file('product_image');

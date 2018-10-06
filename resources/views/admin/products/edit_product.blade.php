@@ -61,7 +61,14 @@
                <div class="control-group">
                 <label class="control-label">Product Description</label>
                 <div class="controls">
-                  <textarea name="product_description" id="product_description" rows="5">{{ $product_details->product_description }}</textarea> 
+                  <textarea name="product_description" id="product_description" rows="4">{{ $product_details->product_description }}</textarea> 
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">Material & Care</label>
+                <div class="controls">
+                  <textarea name="product_care" id="product_care" rows="4">{{ $product_details->product_care }}</textarea>
                 </div>
               </div>
 
@@ -80,13 +87,6 @@
                   @if(!empty($product_details->product_image))
                   <img src="{{ url('images/backend_images/products/small/'.$product_details->product_image) }}" style="width: 30px;"> | <a href="{{ url('/admin/delete-product_image/'.$product_details->id)}}">Delete</a>
                   @endif
-                </div>
-              </div>
-
-              <div class="control-group">
-                <label class="control-label">Product Size</label>
-                <div class="controls">
-                  <input type="text" name="product_size" id="product_size" value="{{ $product_details->product_size }}">
                 </div>
               </div>
 

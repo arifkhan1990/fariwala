@@ -71,7 +71,7 @@
                     <a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
 
                     <a rel="{{ $product->id }}" rel1="delete-product" <?php /*href ="{{ url('/admin/delete-product/'.$product->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
-                    
+
                   </td>
                 </tr>
               </tbody>
@@ -89,8 +89,6 @@
                   <label class="control-"><strong>{{ $product->product_code }}</strong></label>
                   <label class="control-label">Product Color : </label>
                   <label class="control-"><strong>{{ $product->product_color }}</strong></label>
-                  <label class="control-label">Product Size : </label>
-                  <label class="control-"><strong>{{ $product->product_size }}</strong></label>
                   <label class="control-label">Product Price : </label>
                   <label class="control-"><strong>{{ $product->product_price }} Tk.</strong></label>
                   <label class="control-label">Product Description : </label>
