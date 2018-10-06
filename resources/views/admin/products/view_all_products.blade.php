@@ -34,7 +34,7 @@
                   <th>Category Name</th>
                   <th>Product Name</th>
                   <th>Product Code</th>
-                  <th>Product Description</th>
+                  <!-- <th>Product Description</th> -->
                   <th>Product Price</th>
                   <th>Product Status</th>
                   <th>Action</th>
@@ -49,7 +49,7 @@
                   <td>{{ $product->category_name }}</td>
                   <td>{{ $product->product_name }}</td>
                   <td>{{ $product->product_code }}</td>
-                  <td>{{ $product->product_description }}</td>
+                  <!-- <td>{{ $product->product_description }}</td> -->
                   <td>{{ $product->product_price }}<strong> Tk.</strong></td>
                   <td>
                   @if($product->product_status==1)
@@ -69,7 +69,9 @@
                     <a href="{{ url('/admin/add-attribute/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-plus"></i></a>
 
                     <a href="{{ url('/admin/edit-product/'.$product->id )}}" class="btn btn-info"><i class="halflings-icon white icon-edit"></i></a>
+
                     <a rel="{{ $product->id }}" rel1="delete-product" <?php /*href ="{{ url('/admin/delete-product/'.$product->id ) }}"*/ ?> href="javascript:" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
+                    
                   </td>
                 </tr>
               </tbody>
