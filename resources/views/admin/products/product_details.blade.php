@@ -3,7 +3,7 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				
+
 				<!-- Sidebar Link Start -->
                 @include('layouts.frontendLayout.frontend_sidebar')
                 <!-- Sidebar Link End -->
@@ -39,7 +39,7 @@
 
 								  <!-- Controls -->
 								  <a class="left item-control" href="#similar-product" data-slide="prev">
-									<i class="fas fa-angle-left"></i>
+									<i class="fa fa-angle-left"></i>
 								  </a>
 								  <a class="right item-control" href="#similar-product" data-slide="next">
 									<i class="fa fa-angle-right"></i>
