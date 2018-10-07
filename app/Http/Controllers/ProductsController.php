@@ -187,8 +187,14 @@ class ProductsController extends Controller
         $product_details = Product::with('attributes')->where(['id'=>$id])->first();
         // $product_details = json_decode(json_encode($product_details));
         // echo "<pre>"; print_r($product_details);die;
+
+        //Get all categories and Sub categories
         $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
-        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories]);
+        //Get products alternative images
+        $productalteImg = ProductsImage::where(['product_id'=>$id])->get();
+        // $productalteImg = json_decode(json_encode($productalteImg));
+        // echo "<pre>";print_r($productalteImg );die;
+        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories,'productalteImg'=>$productalteImg]);
 
     }
 

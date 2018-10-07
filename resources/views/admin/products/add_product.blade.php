@@ -86,13 +86,6 @@
                 </div>
               </div>
 
-              <div class="control-group">
-                <label class="control-label">Product Size</label>
-                <div class="controls">
-                  <input type="text" name="product_size" id="product_size">
-                </div>
-              </div>
-
               <div class="form-actions">
                 <input type="submit" value="Add product" class="btn btn-success">
               </div>
