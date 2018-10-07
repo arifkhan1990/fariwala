@@ -270,6 +270,17 @@ class ProductsController extends Controller
     	return view('admin.products.add_attribute',['product_details'=>$product_details]);
     }
 
+    public function editAttribute(Request $request,$id = null){
+        if($request->isMethod('post')){
+            $data = $request->all();
+            // echo "<pre>"; print_r($data); die;
+            foreach ($data['idAttr'] as $key => $val) {
+                ProductsAttribute::where(['id'=>$data['idAttr'][$key]])->update(['price'=>$data['price'][$key],'stock'=>$data['stock'][$key]]);
+            }
+            return redirect()->back()->with('flash_message_success','Products Attributes has been updated successfully!');
+        }
+    }
+
     public function getProductPrice(Request $request){
         $data = $request->all();
         // echo "<pre>";print_r($data);die;

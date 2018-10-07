@@ -80,9 +80,11 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Product Attributes table</h5>
+            <h5>View Product Attributes</h5>
           </div>
           <div class="widget-content nopadding">
+            <form action="{{ url('/admin/edit-attribute/'.$product_details->id) }}" method="post">
+            {{ csrf_field() }}
             <table class="table table-bordered data-table">
               <thead>
                 <tr>
@@ -97,18 +99,23 @@
               <tbody>
                 @foreach($product_details['attributes'] as $product)
                 <tr class="gradeX">
-                  <td>{{ $product->id }}</td>
+                  <td><input type="hidden" name="idAttr[]" value="{{ $product->id }}">{{ $product->id }}</td>
                   <td>{{ $product->sku }}</td>
                   <td>{{ $product->size }}</td>
-                  <td>{{ $product->price }}</td>
-                  <td>{{ $product->stock }}</td>
+                  <td><input type="text" name="price[]" value="{{ $product->price }}"></td>
+                  <td><input type="text" name="stock[]" value="{{ $product->stock }}"></td>
                   <td>
+                    <input type="submit" class="btn btn-primary" value="Update">
+                    <!--  <a class="btn btn-primary" href="{{ url('/admin/edit-attribute/'.$product->id) }}" title="Update Attributes"><i class="halflings-icon icon-refresh"></i></a> -->
+
                     <a rel="{{ $product->id }}" rel1="delete-attribute" href="javascript:void" class="btn btn-danger deleteRecord" ><i class="halflings-icon white icon-trash"></i></a>
                   </td>
                 </tr>
                @endforeach  
               </tbody>
             </table>
+
+            </form>
           </div>
         </div>
       </div>
