@@ -14,6 +14,7 @@ use DB;
 use App\ProductsImage;
 class ProductsController extends Controller
 {
+    //Products Add , View , Edit, Single Product View, Delete Product Image , Delete Product functionality.......
     public function addProduct(Request $request){
 
     	if($request->isMethod('post')){
@@ -155,6 +156,42 @@ class ProductsController extends Controller
     	return view('admin.products.edit_product',['product_details'=>$product_details,'category_dropdown'=>$categories_dropdown]);    	
     }
 
+    public function products($url = null){
+        // Show 404 page if Category url does not exist
+        $categoryUrl = Category::where(['category_url'=>$url,'category_status'=>1])->count();
+        if($categoryUrl == 0){
+            abort(404);
+        }
+        //Get all categories and sub categories
+        $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
+        $category_details = Category::where(['category_url'=>$url])->first();
+
+        if($category_details->parent_id == 0){
+            //if url is main category url
+            $cat_ids = array();
+            $sub_categories = Category::where(['parent_id'=>$category_details->id])->get();
+            foreach ($sub_categories as $subcat) {
+                $cat_ids[] = $subcat->id;
+            }
+            $allProducts = Product::whereIn('category_id',$cat_ids)->get();
+        }else{
+            //if url is sub category url
+            $allProducts = Product::where(['category_id'=>$category_details->id])->get();
+        }
+
+        return view('admin.products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
+    }
+
+    public function viewProductDetail($id = null){
+        //Get product details
+        $product_details = Product::with('attributes')->where(['id'=>$id])->first();
+        // $product_details = json_decode(json_encode($product_details));
+        // echo "<pre>"; print_r($product_details);die;
+        $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
+        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories]);
+
+    }
+
     public function deleteProductImage($id = null){
 
         //Get Product Image Name
@@ -189,7 +226,8 @@ class ProductsController extends Controller
     	Product::where(['id'=>$id])->delete();
     	return redirect()->back()->with('flash_message_success','Product has been deleted successfully!');
     }
-
+    
+    // Products Attribute functionality ...................................................................
     public function addAttribute(Request $request,$id = null){
         $product_details = Product::with('attributes')->where(['id'=>$id])->first();
         // $product_details = json_decode(json_encode($product_details));
@@ -226,6 +264,20 @@ class ProductsController extends Controller
     	return view('admin.products.add_attribute',['product_details'=>$product_details]);
     }
 
+    public function getProductPrice(Request $request){
+        $data = $request->all();
+        // echo "<pre>";print_r($data);die;
+        $proAr = explode("-",$data['idSize']);
+        $proAttr = ProductsAttribute::where(['product_id'=>$proAr[0], 'size'=>$proAr[1]])->first();
+        echo $proAttr->price;
+    }
+
+    public function deleteAttribute($id = null){
+        ProductsAttribute::where(['id'=>$id])->delete();
+        return redirect()->back()->with('flash_message_success','Attribute has been deleted successfully!');
+    }
+
+    // Products Alternative images functionality ...................................................................
     public function addImage(Request $request,$id = null){
         $product_details = Product::with('attributes')->where(['id'=>$id])->first();
         // $product_details = json_decode(json_encode($product_details));
@@ -253,55 +305,40 @@ class ProductsController extends Controller
             }
             return redirect()->back()->with('flash_message_success','Product Images has been added successfully');
         }
+        
+        $productsImg = ProductsImage::where(['product_id'=>$id])->get();
 
-        return view('admin.products.add_images',['product_details'=>$product_details]);
-    }
-    
-    public function deleteAttribute($id = null){
-        ProductsAttribute::where(['id'=>$id])->delete();
-        return redirect()->back()->with('flash_message_success','Attribute has been deleted successfully!');
+        return view('admin.products.add_images',['product_details'=>$product_details,'productsImg'=>$productsImg]);
     }
 
-    public function products($url = null){
-        // Show 404 page if Category url does not exist
-        $categoryUrl = Category::where(['category_url'=>$url,'category_status'=>1])->count();
-        if($categoryUrl == 0){
-            abort(404);
-        }
-        //Get all categories and sub categories
-        $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
-        $category_details = Category::where(['category_url'=>$url])->first();
+    public function deleteAlterProductImage($id = null){
 
-        if($category_details->parent_id == 0){
-            //if url is main category url
-            $cat_ids = array();
-            $sub_categories = Category::where(['parent_id'=>$category_details->id])->get();
-            foreach ($sub_categories as $subcat) {
-                $cat_ids[] = $subcat->id;
-            }
-            $allProducts = Product::whereIn('category_id',$cat_ids)->get();
-        }else{
-            //if url is sub category url
-            $allProducts = Product::where(['category_id'=>$category_details->id])->get();
+        //Get Product Image Name
+        $productImage = ProductsImage::where(['id'=>$id])->first();
+
+        //Get Product Image Paths
+        $large_image_path = 'images/backend_images/products/large/';
+        $medium_image_path = 'images/backend_images/products/medium/';
+        $small_image_path = 'images/backend_images/products/small/';
+
+        //Delete Large Image if not exists in folder
+        if(file_exists($large_image_path.$productImage->product_images)){
+            unlink($large_image_path.$productImage->product_images);
         }
 
-        return view('admin.products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
+        //Delete Medium Image if not exists in folder
+        if(file_exists($medium_image_path.$productImage->product_images)){
+            unlink($medium_image_path.$productImage->product_images);
+        }
+
+        //Delete Small Image if not exists in folder
+        if(file_exists($small_image_path.$productImage->product_images)){
+            unlink($small_image_path.$productImage->product_images);
+        }
+
+        //Delete Image from Products table
+        ProductsImage::where(['id'=>$id])->delete();
+        return redirect()->back()->with('flash_message_success','Product Alternative Image(s) has been deleted successfully!');
     }
 
-    public function viewProductDetail($id = null){
-        //Get product details
-        $product_details = Product::with('attributes')->where(['id'=>$id])->first();
-        // $product_details = json_decode(json_encode($product_details));
-        // echo "<pre>"; print_r($product_details);die;
-        $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
-        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories]);
-
-    }
-    public function getProductPrice(Request $request){
-        $data = $request->all();
-        // echo "<pre>";print_r($data);die;
-        $proAr = explode("-",$data['idSize']);
-        $proAttr = ProductsAttribute::where(['product_id'=>$proAr[0], 'size'=>$proAr[1]])->first();
-        echo $proAttr->price;
-    }
 }

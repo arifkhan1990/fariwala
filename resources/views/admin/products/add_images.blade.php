@@ -71,6 +71,16 @@
                 </tr>
               </thead>
               <tbody>
+                @foreach($productsImg as $image)
+                <tr class="gradeX">
+                  <td>{{ $image->id }}</td>
+                  <td>{{ $image->product_id }}</td>
+                  <td><img src="{{ url('images/backend_images/products/small/'.$image->product_images) }}" style="width: 80px;height: 80px;"></td>
+                  <td>
+                    <a rel="{{ $image->id }}" rel1="delete-alt-product-image" href="javascript:void" class="btn btn-danger deleteRecord"  title="Delete Image"><i class="halflings-icon white icon-trash"></i></a>
+                  </td>
+                </tr>
+               @endforeach  
               </tbody>
             </table>
           </div>
