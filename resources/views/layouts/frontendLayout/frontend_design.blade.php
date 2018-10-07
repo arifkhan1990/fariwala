@@ -11,8 +11,9 @@
     <link href="{{ asset('css/frontend_css/prettyPhoto.css') }}" rel="stylesheet">
     <link href="{{ asset('css/frontend_css/price-range.css') }}" rel="stylesheet">
     <link href="{{ asset('css/frontend_css/animate.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/frontend_css/main.css') }}" rel="stylesheet">
-	<link href="{{ asset('css/frontend_css/responsive.css') }}" rel="stylesheet">
+	  <link href="{{ asset('css/frontend_css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/frontend_css/easyzoom.css') }}" rel="stylesheet">
+	 <link href="{{ asset('css/frontend_css/responsive.css') }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{ asset('images/frontend_images/ico/favicon.ico')}}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('images/frontend_images/ico/apple-touch-icon-144-precomposed.png') }}">
@@ -34,6 +35,7 @@
   <script src="{{ asset('js/frontend_js/price-range.js')}}"></script>
   <script src="{{ asset('js/frontend_js/jquery.prettyPhoto.js')}}"></script>
   <script src="{{ asset('js/frontend_js/main.js')}}"></script>
-
+  <script src="{{ asset('js/frontend_js/easyzoom.js') }}"></script>
+  
 </body>
 </html>

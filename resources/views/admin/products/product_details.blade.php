@@ -12,16 +12,24 @@
 					<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img class="mainClass" src="{{ asset('images/backend_images/products/medium/'. $product_details->product_image )}}" alt="" />
-								<h3>ZOOM</h3>
+								<div class="easyzoom easyzoom--overlay easyzoom--with-thumbnails">
+									<a href="{{ asset('images/backend_images/products/large/'. $product_details->product_image )}}" data-standard="{{ asset('images/backend_images/products/small/'. $product_details->product_image )}}">
+								    <img class="mainClass" src="{{ asset('images/backend_images/products/medium/'. $product_details->product_image )}}" style="width: 350px;" alt="" />
+								    </a>
+								</div>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
 								
 								  <!-- Wrapper for slides -->
                     <div class="carousel-inner">
-                        <div class="item active">
+                        <div class="item active thumbnails">
+                        	<a href="{{ asset('images/backend_images/products/large/'. $product_details->product_image )}}" data-standard="{{ asset('images/backend_images/products/small/'. $product_details->product_image )}}">
+							<img class="subClass" src="{{ asset('images/backend_images/products/small/'. $product_details->product_image )}}" style="width: 50px;" alt="" />
+							</a>
                         	@foreach($productalteImg as $altImg)
-                            <img class="subClass"  style="height: 50px; cursor:pointer; width: 50px;" src="{{ url('images/backend_images/products/small/'.$altImg->product_images)}}" alt="">
+                        	<a href="{{ url('images/backend_images/products/large/'.$altImg->product_images)}}" data-standard="{{ url('images/backend_images/products/small/'.$altImg->product_images)}}">
+                            <img class="subClass"  style="cursor:pointer; width: 50px;" src="{{ url('images/backend_images/products/small/'.$altImg->product_images)}}" alt="">
+                            </a>
                             @endforeach
                         </div>
                     </div>
