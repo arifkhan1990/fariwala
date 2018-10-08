@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use App\Product;
+use App\ProductsAttribute;
 session_start();
 
 class CartController extends Controller
@@ -33,10 +34,11 @@ class CartController extends Controller
     	if($countProducts > 0){
             return redirect()->back()->with('flash_message_error','Product already exists in Cart!');
     	}else{
-
-    	DB::table('cart')->insert(['product_id'=>$data['product_id'],
+            
+            $getSKU = ProductsAttribute::select('sku')->where(['product_id'=>$data['product_id'],'size'=>$sizeArr[1]])->first();
+    	    DB::table('cart')->insert(['product_id'=>$data['product_id'],
     		                       'product_name'=>$data['product_name'],
-    		                       'product_code'=>$data['product_code'],
+    		                       'product_code'=>$getSKU->sku,
     		                       'product_color'=>$data['product_color'],
     		                       'product_price'=>$data['product_price'],
     		                       'product_size'=>$sizeArr[1],
@@ -66,7 +68,15 @@ class CartController extends Controller
     }
 
     public function updateProductQuantity($id = null, $quantity = null){
-    	DB::table('cart')->where('id',$id)->increment('quantity',$quantity);
-    	return redirect()->back()->with('flash_message_success','Product Quantity change successfully!');
+    	$getCartDetails = DB::table('cart')->where('id',$id)->first();
+    	$getAttributeStock = ProductsAttribute::where('sku',$getCartDetails->product_code)->first();
+    	$updatedQuantity = $getCartDetails->quantity + $quantity;
+    	if($getAttributeStock->stock >= $updatedQuantity){
+    		DB::table('cart')->where('id',$id)->increment('quantity',$quantity);
+    	    return redirect()->back()->with('flash_message_success','Product Quantity change successfully!');
+    	}else{
+    		return redirect()->back()->with('flash_message_error','Required Product Quantity is not available!');
+    	}
+
     }
 }

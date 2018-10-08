@@ -11,7 +11,7 @@
 			</div>
 			<div class="table-responsive cart_info">
 		@if(Session::has('flash_message_error'))
-            <div class="alert alert-error alert-block">
+            <div class="alert alert-error alert-block" style="background-color: #f2dfd0">
                 <button type="button" class="close" data-dismiss="alert">×</button> 
                     <strong>{{ session('flash_message_error') }}</strong>
             </div>
@@ -34,6 +34,7 @@
 						</tr>
 					</thead>
 					<tbody>
+						<?php $totalAmount = 0; ?>
 						@foreach($userCart as $cart)
 						<tr>
 							<td class="cart_product">
@@ -63,6 +64,7 @@
 								<a class="cart_quantity_delete" href="{{ url('/cart/delete-product/'.$cart->id)}}"><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
+						<?php $totalAmount +=  $cart->product_price*$cart->quantity; ?>
                         @endforeach
 					</tbody>
 				</table>
@@ -134,10 +136,10 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <span><?php echo $totalAmount; ?> Tk.</span></li>
+							<li>Eco Tax <span>0 Tk.</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <span><?php echo $totalAmount; ?> Tk.</span></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
