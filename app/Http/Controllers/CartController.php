@@ -24,6 +24,16 @@ class CartController extends Controller
 
         //Deleting extra '-' char
     	$sizeArr = explode("-",$data['size']);
+
+    	$countProducts =  DB::table('cart')->where([
+    		                  'product_id'=>$data['product_id'],
+    		                  'product_color'=>$data['product_color'],
+    		                  'product_size'=>$sizeArr[1],
+    		                  'session_id'=>$session_id,])->count();
+    	if($countProducts > 0){
+            return redirect()->back()->with('flash_message_error','Product already exists in Cart!');
+    	}else{
+
     	DB::table('cart')->insert(['product_id'=>$data['product_id'],
     		                       'product_name'=>$data['product_name'],
     		                       'product_code'=>$data['product_code'],
@@ -33,7 +43,9 @@ class CartController extends Controller
     		                       'quantity'=>$data['quantity'],
     		                       'user_email'=>$data['user_email'],
     		                       'session_id'=>$session_id,
-    ]);
+    ]);    		
+    	}
+
     	return redirect('/cart')->with('flash_message_success','Product has been added to Cart!');
     }
 
@@ -51,5 +63,10 @@ class CartController extends Controller
     	DB::table('cart')->where('id',$id)->delete();
     	return redirect()->back()->with('flash_message_success','Product has
     		been deleted successfully from Cart!');
+    }
+
+    public function updateProductQuantity($id = null, $quantity = null){
+    	DB::table('cart')->where('id',$id)->increment('quantity',$quantity);
+    	return redirect()->back()->with('flash_message_success','Product Quantity change successfully!');
     }
 }
