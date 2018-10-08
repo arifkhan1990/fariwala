@@ -16,8 +16,7 @@
 // });
 
 //Here All Frontend route
-// Home pages
-Route::get('/','IndexController@index');
+
 
 
 //Here all Backend route
@@ -27,6 +26,8 @@ Route::match(['get','post'],'/admin','AdminController@login');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+// Home pages
+Route::get('/','IndexController@index');
 
 //Category / Listing Page..................................
 Route::get('/products/{category_url}','ProductsController@products');
@@ -34,6 +35,7 @@ Route::get('/products/{category_url}','ProductsController@products');
 Route::get('/product/{id}','ProductsController@viewProductDetail');
 //Cart route...............................................
 Route::match(['get','post'],'/add-cart','CartController@addToCart');
+Route::match(['get','post'],'/cart','CartController@cart');
 //Get Product  Attribute Price.............................
 Route::get('/get-product-price','ProductsController@getProductPrice');
 
