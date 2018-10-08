@@ -58,7 +58,7 @@ class CartController extends Controller
         	$productDetails = Product::where('id',$val->product_id)->first();
         	$userCart[$key]->image = $productDetails->product_image;
         }
-    	return view('admin.cart.cart',['userCart'=>$userCart]);
+    	return view('cart.cart',['userCart'=>$userCart]);
     }
 
     public function deleteCartProduct($id = null){

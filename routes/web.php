@@ -71,4 +71,6 @@ Route::group(['middleware' => ['auth']], function(){
     //Products Alternative Image route here..................
     Route::match(['get','post'],'/admin/add-image/{id}','ProductsController@addImage');
     Route::get('/admin/delete-alt-product-image/{id}','ProductsController@deleteAlterProductImage');
+    //Coupon route here......................................
+    Route::match(['get','post'],'/admin/add-coupon','CouponsController@addCoupon');
 });

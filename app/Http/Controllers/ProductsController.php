@@ -186,7 +186,7 @@ class ProductsController extends Controller
             $allProducts = Product::where(['category_id'=>$category_details->id,'product_status'=>1])->get();
         }
 
-        return view('admin.products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
+        return view('products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
     }
 
     public function viewProductDetail($id = null){
@@ -207,7 +207,7 @@ class ProductsController extends Controller
         $productalteImg = ProductsImage::where(['product_id'=>$id])->get();
 
         $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
-        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories,'productalteImg'=>$productalteImg,'totalStock'=>$totalStock,'relatedProduct'=>$relatedProduct]);
+        return view('products.product_details',['product_details'=>$product_details,'categories'=>$categories,'productalteImg'=>$productalteImg,'totalStock'=>$totalStock,'relatedProduct'=>$relatedProduct]);
 
     }
 
