@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use App\Product;
 session_start();
 
 class CartController extends Controller
@@ -39,7 +40,16 @@ class CartController extends Controller
     public function cart(){
     	$session_id = Session::get('session_id');
     	$userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
-
+        foreach ($userCart as $key => $val) {
+        	$productDetails = Product::where('id',$val->product_id)->first();
+        	$userCart[$key]->image = $productDetails->product_image;
+        }
     	return view('admin.cart.cart',['userCart'=>$userCart]);
+    }
+
+    public function deleteCartProduct($id = null){
+    	DB::table('cart')->where('id',$id)->delete();
+    	return redirect()->back()->with('flash_message_success','Product has
+    		been deleted successfully from Cart!');
     }
 }
