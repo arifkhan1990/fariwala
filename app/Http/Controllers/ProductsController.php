@@ -194,7 +194,8 @@ class ProductsController extends Controller
         $productalteImg = ProductsImage::where(['product_id'=>$id])->get();
         // $productalteImg = json_decode(json_encode($productalteImg));
         // echo "<pre>";print_r($productalteImg );die;
-        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories,'productalteImg'=>$productalteImg]);
+        $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
+        return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories,'productalteImg'=>$productalteImg,'totalStock'=>$totalStock]);
 
     }
 
@@ -287,6 +288,8 @@ class ProductsController extends Controller
         $proAr = explode("-",$data['idSize']);
         $proAttr = ProductsAttribute::where(['product_id'=>$proAr[0], 'size'=>$proAr[1]])->first();
         echo $proAttr->price;
+        echo "#";
+        echo $proAttr->stock;
     }
 
     public function deleteAttribute($id = null){

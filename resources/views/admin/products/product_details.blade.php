@@ -55,12 +55,14 @@
 									<span id="getPrice">{{ $product_details->product_price}} Tk.</span>
 									<label>Quantity:</label>
 									<input type="text" value="3" />
-									<button type="button" class="btn btn-fefault cart">
+									@if($totalStock > 0)
+									<button type="button" class="btn btn-fefault cart" id="cartButton">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
+									@endif
 								</span>
-								<p><b>Availability:</b> In Stock</p>
+								<p><b>Availability:</b> <span id = "availability">@if($totalStock > 0) In Stock @else Out of Stock @endif</span></p>
 								<p><b>Condition:</b> New</p>
 								<p><b>Brand:</b> Fariwala</p>
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
