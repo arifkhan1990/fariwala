@@ -38,6 +38,13 @@
 
 						</div>
 						<div class="col-sm-7">
+							<form name="addtocartForm" id="addtocartForm" action="{{ url('add-cart')}}" method="post">
+								{{ csrf_field() }}
+								<input type="hidden" name="product_id" value="{{ $product_details->id}}">
+								<input type="hidden" name="product_name" value="{{ $product_details->product_name}}">
+								<input type="hidden" name="product_code" value="{{ $product_details->product_code}}">
+								<input type="hidden" name="product_color" value="{{ $product_details->product_color}}">
+								<input type="hidden" name="product_price" id="price" value="{{ $product_details->product_price}}">
 							<div class="product-information"><!--/product-information-->
 								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
 								<h2>{{ $product_details->product_name}}</h2>
@@ -54,9 +61,9 @@
 								<span>
 									<span id="getPrice">{{ $product_details->product_price}} Tk.</span>
 									<label>Quantity:</label>
-									<input type="text" value="3" />
+									<input type="text" name="quantity" value="1" />
 									@if($totalStock > 0)
-									<button type="button" class="btn btn-fefault cart" id="cartButton">
+									<button type="submit" class="btn btn-fefault cart" id="cartButton">
 										<i class="fa fa-shopping-cart"></i>
 										Add to cart
 									</button>
@@ -67,6 +74,7 @@
 								<p><b>Brand:</b> Fariwala</p>
 								<a href=""><img src="images/product-details/share.png" class="share img-responsive"  alt="" /></a>
 							</div><!--/product-information-->
+						    </form>
 						</div>
 					</div><!--/product-details-->
 					

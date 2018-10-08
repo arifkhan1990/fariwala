@@ -42,6 +42,7 @@ $(document).ready(function(){
 			success:function(resp){
 				var arr = resp.split('#');
 				$("#getPrice").html(arr[0]+" Tk.");
+				$("#price").val(arr[0]);
 				if(arr[1] == 0){
 					$("#cartButton").hide();
 					$("#availability").text("Out of Stock");
