@@ -11,7 +11,7 @@ class IndexController extends Controller
     public function index(){
     	// $allProducts = Product::orderBy('product_id','DESC')->get();  
     	// $allProducts = Product::get(); orderby defualt asceding 
-    	$allProducts = Product::inRandomOrder()->get();
+    	$allProducts = Product::inRandomOrder()->where(['product_status'=>1])->get();
         //Get all categories and sub categories
         $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
         // $categories = json_decode(json_encode($categories));

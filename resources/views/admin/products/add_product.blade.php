@@ -86,6 +86,13 @@
                 </div>
               </div>
 
+              <div class="control-group">
+                <label class="control-label">Publication Status</label>
+                <div class="controls">
+                  <input type="checkbox" name="product_status" id="product_status" value="1">
+                </div>
+              </div>
+
               <div class="form-actions">
                 <input type="submit" value="Add product" class="btn btn-success">
               </div>

@@ -60,10 +60,11 @@
                   </td>
                   <td>
                     @if($product->product_status==1)
-                    <a href="" class="btn btn-success" title="Product Unactive"><i class="halflings-icon white  icon-thumbs-down"></i></a>
+                    <a href="{{ url('/admin/unactive-product/'.$product->id) }}" class="btn btn-success" title="Product Unactive"><i class="halflings-icon white  icon-thumbs-up"></i></a>
                     @else 
-                    <a href="" class="btn btn-danger" title="Product Active"><i class="halflings-icon white  icon-thumbs-up"></i></a>
+                    <a href="{{ url('/admin/active-product/'.$product->id) }}" class="btn btn-danger" title="Product Active"><i class="halflings-icon white  icon-thumbs-down"></i></a>
                     @endif
+
                     <a href="#myModal{{$product->id}}" data-toggle="modal" class="btn btn-primary" id="view_product" title="Product View"><i class="halflings-icon white icon-eye-open"></i></a>
 
                     <a href="{{ url('/admin/add-attribute/'.$product->id )}}" class="btn btn-info" title="Add  Product Attribute"><i class="halflings-icon white icon-plus"></i></a>

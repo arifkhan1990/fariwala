@@ -14,7 +14,7 @@ use DB;
 use App\ProductsImage;
 class ProductsController extends Controller
 {
-    //Products Add , View , Edit, Single Product View, Delete Product Image , Delete Product functionality.......
+    //Products Add , View , Edit, Single Product View, Delete Product Image , Delete Product, Product Active and Unactive  functionality.......
     public function addProduct(Request $request){
 
     	if($request->isMethod('post')){
@@ -40,6 +40,13 @@ class ProductsController extends Controller
             }
 
     		$product->product_price = $data['product_price'];
+
+            if(empty($data['product_status'])){
+                $status = 0;
+            }else{
+                $status = 1;
+            }
+            $product->product_status = $status;
     		//uplpad image
     		if($request->hasFile('product_image')){
     			$image_tmp = Input::file('product_image');
@@ -173,20 +180,26 @@ class ProductsController extends Controller
             foreach ($sub_categories as $subcat) {
                 $cat_ids[] = $subcat->id;
             }
-            $allProducts = Product::whereIn('category_id',$cat_ids)->get();
+            $allProducts = Product::whereIn('category_id',$cat_ids)->where('product_status',1)->get();
         }else{
             //if url is sub category url
-            $allProducts = Product::where(['category_id'=>$category_details->id])->get();
+            $allProducts = Product::where(['category_id'=>$category_details->id,'product_status'=>1])->get();
         }
 
         return view('admin.products.listing',['categories'=>$categories,'category_details'=>$category_details,'allProducts'=>$allProducts]);
     }
 
     public function viewProductDetail($id = null){
+
+        // Show 404 page if Product status is 0
+        $productStatus = Product::where(['id'=>$id,'product_status'=>1])->count();
+        if($productStatus == 0){
+            abort(404);
+        }
         //Get product details
         $product_details = Product::with('attributes')->where(['id'=>$id])->first();
 
-        $relatedProduct = Product::where('id','!=',$id)->where(['category_id'=>$product_details->category_id])->get();
+        $relatedProduct = Product::where('id','!=',$id)->where(['category_id'=>$product_details->category_id,'product_status'=>1])->get();
 
         //Get all categories and Sub categories
         $categories = Category::with('categories')->where(['parent_id'=>0,'category_status'=>1])->get();
@@ -196,6 +209,16 @@ class ProductsController extends Controller
         $totalStock = ProductsAttribute::where('product_id',$id)->sum('stock');
         return view('admin.products.product_details',['product_details'=>$product_details,'categories'=>$categories,'productalteImg'=>$productalteImg,'totalStock'=>$totalStock,'relatedProduct'=>$relatedProduct]);
 
+    }
+
+    public function unactiveProduct($id = null){
+         Product::where('id',$id)->update(['product_status' => 0]);
+         return redirect()->back()->with('flash_message_success','Product Unactive successfully !!');
+    }
+
+    public function activeProduct($id){
+         Product::where('id',$id)->update(['product_status' => 1]);
+         return redirect()->back()->with('flash_message_success','Product Active successfully !!');
     }
 
     public function deleteProductImage($id = null){
