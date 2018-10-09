@@ -7,6 +7,7 @@ use DB;
 use Session;
 use App\Product;
 use App\ProductsAttribute;
+use App\Coupon;
 session_start();
 
 class CartController extends Controller
@@ -78,5 +79,15 @@ class CartController extends Controller
     		return redirect()->back()->with('flash_message_error','Required Product Quantity is not available!');
     	}
 
+    }
+
+    public function applyCoupon(Request $request){
+        $data = $request->all();
+        $couponCount = Coupon::where('coupon_code',$data['coupon_code'])->count();
+        if($couponCount == 0){
+            return redirect()->back()->with('flash_message_error','Coupon Code is not valid!');
+        }else{
+            
+        }
     }
 }

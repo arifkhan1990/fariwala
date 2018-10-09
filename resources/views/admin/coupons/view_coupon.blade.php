@@ -44,7 +44,7 @@
                 <tr class="gradeX">
                   <td>{{ $Coupon->id }}</td>
                   <td>{{ $Coupon->coupon_code }}</td>
-                  <td>{{ $Coupon->amount }}</td>
+                  <td>@if($Coupon->amount_type == "Percentage"){{ $Coupon->amount }}% @else {{ $Coupon->amount }} Tk. @endif</td>
                   <td>{{ $Coupon->amount_type }}</td>
                   <td>{{ $Coupon->expiry_date }}</td>
                   <td>
@@ -56,9 +56,9 @@
                   </td>
                   <td>
                     @if($Coupon->coupon_status==1)
-                    <a href="{{ url('/admin/unactive-coupon/'.$Coupon->id) }}" class="btn btn-success" title="Coupon Unactive"><i class="halflings-icon white  icon-thumbs-up"></i></a>
+                    <a href="{{ url('/admin/unactive-coupon/'.$Coupon->id) }}" class="btn btn-success" title="Coupon Active"><i class="halflings-icon white  icon-thumbs-up"></i></a>
                     @else 
-                    <a href="{{ url('/admin/active-coupon/'.$Coupon->id) }}" class="btn btn-danger" title="Coupon Active"><i class="halflings-icon white  icon-thumbs-down"></i></a>
+                    <a href="{{ url('/admin/active-coupon/'.$Coupon->id) }}" class="btn btn-danger" title="Coupon UActive"><i class="halflings-icon white  icon-thumbs-down"></i></a>
                     @endif
 
                     <a href="{{ url('/admin/edit-coupon/'.$Coupon->id )}}" class="btn btn-info" title="Edit Coupon"><i class="halflings-icon white icon-edit"></i></a>
