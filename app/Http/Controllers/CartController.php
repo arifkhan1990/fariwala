@@ -82,12 +82,47 @@ class CartController extends Controller
     }
 
     public function applyCoupon(Request $request){
+        Session::forget('CouponAmount');
+        Session::forget('CouponCode');
+
         $data = $request->all();
         $couponCount = Coupon::where('coupon_code',$data['coupon_code'])->count();
         if($couponCount == 0){
-            return redirect()->back()->with('flash_message_error','Coupon Code is not valid!');
+            return redirect()->back()->with('flash_message_error','The Coupon is not exists!');
         }else{
-            
+            $couponDetails = Coupon::where('coupon_code',$data['coupon_code'])->first();
+            // echo "<pre>";print_r($couponDetails);die;
+
+            // If coupon is Inactive
+           if($couponDetails->coupon_status == 0){
+            return redirect()->back()->with('flash_message_error','This coupon is not active!');
+           }
+
+           // If coupon is Expired
+           $expiry_date = $couponDetails->expiry_date;
+           $current_date = date('y-m-d');
+           if($expiry_date < $current_date){
+            return redirect()->back()->with('flash_message_error','This coupon is expired!');
+           } 
+
+           //Get cart total amount
+           $session_id = Session::get('session_id');
+           $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+           $total_amount = 0;
+           foreach ($userCart as $item) {
+               $total_amount = $total_amount + ($item->product_price * $item->quantity);
+           }
+          // Check if amount type is Fixed or Percentage
+           if($couponDetails->amount_type == "Fixed"){
+            $couponAmount = $couponDetails->amount;
+           }else{
+            $couponAmount = $total_amount * ($couponDetails->amount/100);
+           }
+
+           Session::put('CouponAmount',$couponAmount);
+           Session::put('CouponCode',$data['coupon_code']);
+
+           return redirect()->back()->with('flash_message_success','Coupon code successfully applied. You are availing discount!');
         }
     }
 }

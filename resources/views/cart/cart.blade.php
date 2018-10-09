@@ -96,10 +96,13 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span><?php echo $totalAmount; ?> Tk.</span></li>
-							<li>Eco Tax <span>0 Tk.</span></li>
-							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span><?php echo $totalAmount; ?> Tk.</span></li>
+							@if(!empty(Session::get('CouponAmount')))
+							<li>Sub Total <span><?php echo $totalAmount; ?> Tk.</span></li>
+							<li>Coupon Discount<span><?php echo Session::get('CouponAmount'); ?>Tk.</span></li>
+							<li>Grand Total <span> <?php echo $totalAmount - Session::get('CouponAmount'); ?> Tk.</span></li>
+							@else
+							<li>Grand Total <span><?php echo $totalAmount; ?> Tk.</span></li>
+							@endif
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
