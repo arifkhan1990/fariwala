@@ -22,5 +22,11 @@
       </ul>
     </li>
 
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Banners</span> <span class="label label-important">2</span></a>
+      <ul>
+        <li><a href="{{ url('/admin/add-banner')}}">Add Banner</a></li>
+        <li><a href="{{ url('/admin/view-all-banners')}}">All Banners </a></li>
+      </ul>
+    </li>
   </ul>
 </div>
