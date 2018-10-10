@@ -60,7 +60,7 @@
               </div>
 
               <div class="form-actions">
-                <input type="submit" value="Add banner" class="btn btn-success">
+                <input type="submit" value="Add Banner" class="btn btn-success">
               </div>
             </form>
           </div>

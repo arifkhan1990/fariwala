@@ -6,26 +6,18 @@
 				<div class="col-sm-12">
 					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
-							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-							<li data-target="#slider-carousel" data-slide-to="1"></li>
-							<li data-target="#slider-carousel" data-slide-to="2"></li>
-							<li data-target="#slider-carousel" data-slide-to="3"></li>
+							@foreach($banners as $key => $banner)
+							<li data-target="#slider-carousel" data-slide-to="0" @if($key==0) class="active" @endif></li>
+							@endforeach
 						</ol>
 						
 						<div class="carousel-inner">
-							<div class="item active">
-									<img src="{{ asset('images/frontend_images/banners/banners.jpg')}}" class="girl img-responsive" alt="" />
+							@foreach($banners as $key => $banner)
+							<div class="item @if($key==0) active @endif">
+								<a href="{{ $banner->link }}" title="Banner 1">
+									<img src="{{ asset('images/frontend_images/banners/'.$banner->image)}}" class="girl img-responsive" alt="" /></a>
 							</div>
-							<div class="item">
-									<img src="{{ asset('images/frontend_images/banners/lgdban.jpg')}}" class="girl img-responsive" alt="" />
-							</div>
-							<div class="item">
-									<img src="{{ asset('images/frontend_images/banners/bann.jpg')}}" class="girl img-responsive" alt="" />
-							</div>
-							<div class="item">
-									<img src="{{ asset('images/frontend_images/banners/ssban.jpg')}}" class="girl img-responsive" alt="" />
-							</div>
-							
+							@endforeach
 						</div>
 						
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">

@@ -14,7 +14,7 @@ session_start();
 
 class BannersController extends Controller
 {
-public function addBanner(Request $request){
+    public function addBanner(Request $request){
     	 if($request->isMethod('post')){
     		$data = $request->all();
     	 	 // echo "<pre>";print_r($data);die;
@@ -48,84 +48,71 @@ public function addBanner(Request $request){
         return view('admin.banners.add_banner');
     }
 
-    // public function viewAllbanners(){
-    // 	$banners = banner::get();
-    // 	return view('admin.banners.view_banner',['banners'=>$banners]);
-    // }
+    public function viewAllBanners(){
+     	$banners = Banner::get();
+     	return view('admin.banners.view_all_banners',['banners'=>$banners]);
+    }
     
-    // public function editbanner(Request $request, $id=null){
-    // 	$bannerDetails = banner::where('id',$id)->first();
-    // 	if($request->isMethod('post')){
-    // 		$data = $request->all();
-    // 		$banner = banner::find($id);
-    // 		$banner->banner_code = $data['banner_code'];
-    // 		$banner->amount = $data['amount'];
-    // 		$banner->amount_type = $data['amount_type'];
-    // 		$banner->expiry_date = $data['expiry_date'];
-    //         $banner->update();
+    public function editBanner(Request $request, $id=null){
 
-    //         return redirect('/admin/view-all-banners')->with('flash_message_success','banner has been Updated successfully!');
-    // 	}
-    //     return view('admin.banners.edit_banner',['bannerDetails'=>$bannerDetails]);
-    // }
+    	if($request->isMethod('post')){
+    		$data = array();
+    		$data['title'] = $request->title;
+    		$data['link'] = $request->link;
 
-    // public function unactivebanner($id = null){
-    //      banner::where('id',$id)->update(['banner_status' => 0]);
-    //      return redirect()->back()->with('flash_message_success','banner Unactive successfully !!');
-    // }
+    		if($request->hasFile('image')){
+    			$image_tmp = Input::file('image');
+    			if($image_tmp->isValid()){
+                    $extension = $image_tmp->getClientOriginalExtension();
+                    $filename = rand(111,99999).'.'.$extension;
+                    $image_path = 'images/frontend_images/banners/'.$filename;
 
-    // public function activebanner($id){
-    //      banner::where('id',$id)->update(['banner_status' => 1]);
-    //      return redirect()->back()->with('flash_message_success','banner Active successfully !!');
-    // }
+                    Image::make($image_tmp)->resize(1140,340)->save($image_path);
+                     
+                    $data['image'] = $filename;
+    			}
+    		}else if(!empty($current_image)){
+    			$data['image'] = $current_image;
+    		}
 
-    // public function applybanner(Request $request){
-    //     Session::forget('bannerAmount');
-    //     Session::forget('bannerCode');
+            Banner::where('id',$id)->update($data);
 
-    //     $data = $request->all();
-    //     $bannerCount = banner::where('banner_code',$data['banner_code'])->count();
-    //     if($bannerCount == 0){
-    //         return redirect()->back()->with('flash_message_error','The banner is not exists!');
-    //     }else{
-    //         $bannerDetails = banner::where('banner_code',$data['banner_code'])->first();
-    //         // echo "<pre>";print_r($bannerDetails);die;
+            return redirect('/admin/view-all-banners')->with('flash_message_success','Banner has been Updated successfully!');
+    	}
+    	$bannerDetails = Banner::where('id',$id)->first();
+        return view('admin.banners.edit_banner',['bannerDetails'=>$bannerDetails]);
+    }
 
-    //         // If banner is Inactive
-    //        if($bannerDetails->banner_status == 0){
-    //         return redirect()->back()->with('flash_message_error','This banner is not active!');
-    //        }
+    public function deleteBannerImage($id = null){
 
-    //        // If banner is Expired
-    //        $expiry_date = $bannerDetails->expiry_date;
-    //        $current_date = date('y-m-d');
-    //        if($expiry_date < $current_date){
-    //         return redirect()->back()->with('flash_message_error','This banner is expired!');
-    //        } 
+        //Get Product Image Name
+        $bannerImage = Banner::where(['id'=>$id])->first();
 
-    //        //Get cart total amount
-    //        $session_id = Session::get('session_id');
-    //        $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
-    //        $total_amount = 0;
-    //        foreach ($userCart as $item) {
-    //            $total_amount = $total_amount + ($item->product_price * $item->quantity);
-    //        }
-    //       // Check if amount type is Fixed or Percentage
-    //        if($bannerDetails->amount_type == "Fixed"){
-    //         $bannerAmount = $bannerDetails->amount;
-    //        }else{
-    //         $bannerAmount = $total_amount * ($bannerDetails->amount/100);
-    //        }
+        //Get Product Image Paths
+        $image_path = 'images/frontend_images/banners/';
 
-    //        Session::put('bannerAmount',$bannerAmount);
-    //        Session::put('bannerCode',$data['banner_code']);
+        //Delete Large Image if not exists in folder
+        if(file_exists($image_path.$bannerImage->image)){
+            unlink($image_path.$bannerImage->image);
+        }
 
-    //        return redirect()->back()->with('flash_message_success','banner code successfully applied. You are availing discount!');
-    //     }
-    // }
+        //Delete Image from Products table
+    	Banner::where(['id'=>$id])->update(['image'=>'']);
+    	return redirect()->back()->with('flash_message_success','Banner Image has been deleted successfully!');
+    }
+    
+    public function unactiveBanner($id = null){
+         Banner::where('id',$id)->update(['banner_status' => 0]);
+         return redirect()->back()->with('flash_message_success','Banner Unactive successfully !!');
+    }
 
-    // public function deletebanner($id = null){
-    // 	banner::where(['id'=>$id])->delete();
-    // 	return redirect()->back()->with('flash_message_success','banner has been deleted successfully!');
-    // }
+    public function activeBanner($id){
+         Banner::where('id',$id)->update(['banner_status' => 1]);
+         return redirect()->back()->with('flash_message_success','Banner Active successfully !!');
+    }
+
+    public function deleteBanner($id = null){
+    	Banner::where(['id'=>$id])->delete();
+    	return redirect()->back()->with('flash_message_success','Banner has been deleted successfully!');
+    }
 }
