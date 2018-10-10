@@ -43,6 +43,9 @@ Route::post('/cart/apply-coupon','CouponsController@applyCoupon');
 //Get Product  Attribute Price.............................
 Route::get('/get-product-price','ProductsController@getProductPrice');
 
+//User login resigter logout route.........................
+Route::match(['get','post'],'/login-register','UsersController@userRegister');
+
 Route::group(['middleware' => ['auth']], function(){
 	Route::get('/admin/dashboard','AdminController@dashboard');
 	Route::get('/settings','AdminController@settings');
