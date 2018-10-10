@@ -45,6 +45,8 @@ Route::get('/get-product-price','ProductsController@getProductPrice');
 
 //User login resigter logout route.........................
 Route::match(['get','post'],'/login-register','UsersController@userRegister');
+// Check user email already exists.........................
+Route::match(['get','post'],'/check-email','UsersController@checkEmail');
 
 Route::group(['middleware' => ['auth']], function(){
 	Route::get('/admin/dashboard','AdminController@dashboard');

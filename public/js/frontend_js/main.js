@@ -97,3 +97,41 @@ $(document).ready(function(){
 			}
 		});
 });
+
+$().ready(function(){
+	// Validate Register Form on keyup and submit
+	$("#registerForm").validate({
+		rules:{
+			name:{
+				required:true,
+				minlength:3,
+				accept: "[a-zA-Z]+"
+			},
+			password:{
+				required:true,
+				minlength:6
+			},
+			email:{
+				required:true,
+				email:true,
+				remote:"/check-email"
+			}
+		},
+		messages:{
+			name:{
+				required: "Please enter your Name",
+				minlength: "Your Password must be atleast 6 characters long",
+				accept: "Your Name must be consist of letter only"
+			},
+			password:{
+				required: "Please provide your Password",
+				minlength: "Your Password must be atleast 6 characters long"
+			},
+			email:{
+				required: "Please enter your Email",
+				email: "Please enter valid Email",
+				remote: "Email already exists!"
+			}
+		}
+	})
+});
