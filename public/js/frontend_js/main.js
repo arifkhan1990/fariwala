@@ -135,6 +135,66 @@ $().ready(function(){
 		}
 	});
 });
+//Account Form validation
+$().ready(function(){
+	$("#accountForm").validate({
+		rules:{
+			name:{
+				required:true,
+				minlength: 6,
+				accept: "[a-zA-Z]+"
+			},
+			address:{
+				minlength: 5,
+				required:true
+			},
+			city:{
+				minlength: 3,
+				required:true
+			},
+			country:{
+				minlength: 5,
+				required:true
+			},
+			zipcode:{
+				minlength: 4,
+				required:true
+			},
+			phone:{
+				minlength: 5,
+				required:true
+			}
+
+		},
+		messages:{
+			name:{
+				required: "Please enter your Name",
+				minlength: "Your Password must be atleast 6 characters long",
+				accept: "Your Name must be consist of letter only"
+			},
+			address:{
+				minlength: "Your Password must be atleast 5 characters long",
+				required: "Please provide your Address"
+			},
+			city:{
+				minlength: "Your Password must be atleast 3 characters long",
+				required: "Please provide your City"
+			},
+			country:{
+				minlength: "Your Password must be atleast 5 characters long",
+				required: "Please provide your Country"
+			},
+			zipcode:{
+				minlength: "Your Password must be atleast 4 characters long",
+				required: "Please provide your Zipcode"
+			},
+			phone:{
+				minlength: "Your Password must be atleast 5 characters long",
+				required: "Please provide your Phone"
+			}
+		}
+	});
+});
 
 // Validate Login Form on keyup and submit
 $().ready(function(){

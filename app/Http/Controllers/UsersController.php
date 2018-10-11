@@ -44,10 +44,45 @@ class UsersController extends Controller
     	}
     }
 
-    public function userAccount(){
+    public function userAccount(Request $request){
     	$user_id = Auth::user()->id;
     	$countries = Country::get();
     	$userDetails = User::find($user_id);
+    	if($request->isMethod('post')){
+    		$data = $request->all();
+    		if(empty($data['name'])){
+    			return redirect()->back()->with('flash_message_error','Please enter your name to update your account details!');
+    		}
+    		if(empty($data['address'])){
+    			$data['address'] = '';
+    		}
+    		if(empty($data['city'])){
+    			$data['city'] = '';
+    		}
+    		if(empty($data['state'])){
+    			$data['state'] = '';
+    		}
+    		if(empty($data['country'])){
+    			$data['country'] = '';
+    		}
+    		if(empty($data['zipcode'])){
+    			$data['zipcode'] = '';
+    		}
+    		if(empty($data['phone'])){
+    			$data['phone'] = '';
+    		}
+    		$user = User::find($user_id);
+    		$user->name = $data['name'];
+    		$user->address = $data['address'];
+    		$user->city = $data['city'];
+    		$user->state = $data['state'];
+    		$user->country = $data['country'];
+    		$user->zipcode = $data['zipcode'];
+    		$user->phone = $data['phone'];
+    		$user->save();
+    		return redirect()->back()->with('flash_message_success','Your account details has been successfully updated!');
+
+    	}
        return view('users.account',['countries'=>$countries,'userDetails'=>$userDetails]);
     }
 
