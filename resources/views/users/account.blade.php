@@ -19,7 +19,22 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form">
 						<h2>Update Account</h2>
-
+						<form id="accountForm" name="accountForm" action="{{ url('/user-account') }}" method="post">
+							{{ csrf_field() }}
+							<input value="{{ $userDetails->name }}" id="name" name="name" type="text" placeholder="Name"/>
+                            <input id="address" name="address" type="text" placeholder="Address"/>
+                            <input id="city" name="city" type="text" placeholder="City"/>
+                            <input id="state" name="state" type="text" placeholder="State"/>
+                            <select id="country" name="country">
+                            	<option value="">Select Country</option>
+                            	@foreach($countries as $country)
+                            	<option value="{{ $country->country_name }}">{{ $country->country_name }}</option>
+                            	@endforeach
+                            </select>
+                            <input style="margin-top: 10px;" id="zipcode" name="zipcode" type="text" placeholder="Zipcode"/>
+                            <input id="phone" name="phone" type="text" placeholder="Phone number"/>
+							<button type="submit" class="btn btn-default">Update Account</button>
+						</form>
 					</div>
 				</div>
 				<div class="col-sm-1" style="margin-left: 20px;">

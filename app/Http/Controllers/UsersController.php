@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use App\User;
+use App\Country;
 use Auth;
 
 class UsersController extends Controller
@@ -44,7 +45,10 @@ class UsersController extends Controller
     }
 
     public function userAccount(){
-       return view('users.account');
+    	$user_id = Auth::user()->id;
+    	$countries = Country::get();
+    	$userDetails = User::find($user_id);
+       return view('users.account',['countries'=>$countries,'userDetails'=>$userDetails]);
     }
 
     public function userLogout(){
