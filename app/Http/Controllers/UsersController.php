@@ -8,7 +8,15 @@ use Auth;
 
 class UsersController extends Controller
 {
-	public function userLogin(){
+	public function userLogin(Request $request){
+		if($request->isMethod('post')){
+			$data = $request->all();
+			if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+				return redirect('/cart');
+			}else{
+				return redirect()->back()->with('flash_message_error','Invalid Email or Password');
+			}
+		}
 		return view('users.user_register');
 	}
 
@@ -36,7 +44,7 @@ class UsersController extends Controller
     	Auth::logout();
     	return redirect('/');
     }
-    
+
     public function checkEmail(Request $request){
     	$data = $request->all();
     	$usersCount = User::where(['email'=>$data['email']])->count();

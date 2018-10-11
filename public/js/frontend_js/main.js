@@ -136,6 +136,29 @@ $().ready(function(){
 	});
 });
 
+// Validate Login Form on keyup and submit
+$().ready(function(){
+	$("#registerForm").validate({
+		rules:{
+			email:{
+				required:true,
+				email:true,
+			},
+			password:{
+				required:true,
+			}
+		},
+		messages:{
+			email:{
+				required: "Please enter your Email",
+				email: "Please enter valid Email"
+			},
+			password:{
+				required: "Please provide your Password",
+			}
+		}
+	});
+});
 //Password Strength Script
 $(document).ready(function(){
 	$("#password").passtrength({
