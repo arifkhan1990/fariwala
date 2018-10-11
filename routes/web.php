@@ -49,6 +49,8 @@ Route::match(['get','post'],'/user-login','UsersController@userLogin');
 
 Route::group(['middleware'=>['frontlogin']],function(){
     Route::match(['get','post'],'/user-account','UsersController@userAccount');
+    Route::post('/check-user-pwd','UsersController@checkUserPassword');
+    Route::post('/update-user-password','UsersController@updateUserPassword');
     Route::get('/user-logout','UsersController@userLogout');
 });
 // Check user email already exists.........................

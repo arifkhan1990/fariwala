@@ -135,6 +135,66 @@ $().ready(function(){
 		}
 	});
 });
+//Account Form validation
+$().ready(function(){
+	$("#accountForm").validate({
+		rules:{
+			name:{
+				required:true,
+				minlength: 6,
+				accept: "[a-zA-Z]+"
+			},
+			address:{
+				minlength: 5,
+				required:true
+			},
+			city:{
+				minlength: 3,
+				required:true
+			},
+			country:{
+				minlength: 5,
+				required:true
+			},
+			zipcode:{
+				minlength: 4,
+				required:true
+			},
+			phone:{
+				minlength: 5,
+				required:true
+			}
+
+		},
+		messages:{
+			name:{
+				required: "Please enter your Name",
+				minlength: "Your Password must be atleast 6 characters long",
+				accept: "Your Name must be consist of letter only"
+			},
+			address:{
+				minlength: "Your Password must be atleast 5 characters long",
+				required: "Please provide your Address"
+			},
+			city:{
+				minlength: "Your Password must be atleast 3 characters long",
+				required: "Please provide your City"
+			},
+			country:{
+				minlength: "Your Password must be atleast 5 characters long",
+				required: "Please provide your Country"
+			},
+			zipcode:{
+				minlength: "Your Password must be atleast 4 characters long",
+				required: "Please provide your Zipcode"
+			},
+			phone:{
+				minlength: "Your Password must be atleast 5 characters long",
+				required: "Please provide your Phone"
+			}
+		}
+	});
+});
 
 // Validate Login Form on keyup and submit
 $().ready(function(){
@@ -158,6 +218,64 @@ $().ready(function(){
 			}
 		}
 	});
+});
+
+// Check Current User Password
+$(document).ready(function(){
+    $("#current_pwd").keyup(function(){
+	   var current_pwd = $(this).val();
+	   $.ajaxSetup({
+       headers: {
+           'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+       }
+    });
+	   $.ajax({
+		   type:'post',
+		   url:'/check-user-pwd',
+		   data:{ current_pwd:current_pwd },
+		   success:function(resp){
+			   if(resp == "false"){
+				   $("#chkPwd").html("<font color='red'>Current Password is incorrect</font>")
+			   }else if(resp == "true"){
+				   $("#chkPwd").html("<font color='green'>Current Password is correct</font>")
+			   }
+		   },error:function(){
+			alert('Error');
+		   }
+	   });
+   });
+});
+
+$(document).ready(function(){
+    $("#passwordForm").validate({
+	    rules:{
+		    current_pwd:{
+			    required: true,
+			    minlength:6,
+			    maxlength:20
+		    },
+		    new_pwd:{
+			    required:true,
+			    minlength:6,
+			    maxlength:20
+		    },
+		    confirm_pwd:{
+			    required:true,
+			    minlength:6,
+			    maxlength:20,
+			    equalTo:"#new_pwd"
+			}
+	    },
+	    errorClass: "help-inline",
+	    errorElement: "span",
+	    highlight:function(element, errorClass, validClass) {
+		    $(element).parents('.control-group').addClass('error');
+	    },
+	    unhighlight: function(element, errorClass, validClass) {
+		    $(element).parents('.control-group').removeClass('error');
+		    $(element).parents('.control-group').addClass('success');
+	    }
+    });
 });
 //Password Strength Script
 $(document).ready(function(){
