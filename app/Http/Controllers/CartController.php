@@ -8,6 +8,10 @@ use Session;
 use App\Product;
 use App\ProductsAttribute;
 use App\Coupon;
+use Auth;
+use App\User;
+use App\Country;
+
 session_start();
 
 class CartController extends Controller
@@ -85,5 +89,12 @@ class CartController extends Controller
     		return redirect()->back()->with('flash_message_error','Required Product Quantity is not available!');
     	}
 
+    }
+
+    public function checkOut(Request $request){
+        $user_id = Auth::user()->id;
+        $userDetails = User::find($user_id);
+        $countries = Country::get();
+        return view('cart.checkout',['userDetails'=>$userDetails,'countries'=>$countries]);
     }
 }

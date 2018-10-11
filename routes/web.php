@@ -46,12 +46,12 @@ Route::get('/get-product-price','ProductsController@getProductPrice');
 //User login resigter logout route.........................
 Route::post('/user-register','UsersController@userRegister');
 Route::match(['get','post'],'/user-login','UsersController@userLogin');
-
+Route::get('/user-logout','UsersController@userLogout');
 Route::group(['middleware'=>['frontlogin']],function(){
     Route::match(['get','post'],'/user-account','UsersController@userAccount');
     Route::post('/check-user-pwd','UsersController@checkUserPassword');
     Route::post('/update-user-password','UsersController@updateUserPassword');
-    Route::get('/user-logout','UsersController@userLogout');
+    Route::match(['get','post'],'/checkout','CartController@checkOut');
 });
 // Check user email already exists.........................
 Route::match(['get','post'],'/check-email','UsersController@checkEmail');
