@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 use App\User;
 use Auth;
 
@@ -12,6 +13,7 @@ class UsersController extends Controller
 		if($request->isMethod('post')){
 			$data = $request->all();
 			if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+				Session::put('frontSession',$data['email']);
 				return redirect('/cart');
 			}else{
 				return redirect()->back()->with('flash_message_error','Invalid Email or Password');
@@ -34,14 +36,20 @@ class UsersController extends Controller
     			$user->password = bcrypt($data['password']);
     			$user->save();
     			if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
+    				Session::put('frontSession',$data['email']);
     				return redirect('/cart');
     			}
     		}
     	}
     }
 
+    public function userAccount(){
+       return view('users.account');
+    }
+
     public function userLogout(){
     	Auth::logout();
+    	Session::forget('frontSession');
     	return redirect('/');
     }
 
