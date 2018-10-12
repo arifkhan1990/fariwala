@@ -102,6 +102,10 @@ class CartController extends Controller
         if($shippingCount > 0){
             $shippingDetails = DeliveryAddress::where('user_id',$user_id)->first();
         }
+        
+        //Update cart table with user email
+        $session_id = Session::get('session_id');
+        DB::table('cart')->where(['session_id'=>$session_id])->update(['user_email'=>$user_email]);
 
         if($request->isMethod('post')){
             $data = $request->all();
@@ -123,12 +127,16 @@ class CartController extends Controller
                 $shipping->country = $data['shipping_country'];
                 $shipping->pincode = $data['shipping_pincode'];
                 $shipping->phone = $data['shipping_phone'];
-                // echo "<pre>"; print_r($shipping);die;
                 $shipping->save();
 
             }
-            echo "test";die;
+            return redirect()->action('CartController@orderReview');
         }
+
         return view('cart.checkout',['userDetails'=>$userDetails,'countries'=>$countries,'shippingDetails'=>$shippingDetails]);
+    }
+
+    public function orderReview(){
+        return view('cart.order_review');
     }
 }
