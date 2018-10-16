@@ -137,6 +137,15 @@ class CartController extends Controller
     }
 
     public function orderReview(){
-        return view('cart.order_review');
+        $user_id = Auth::user()->id;
+        $user_email = Auth::user()->email;
+        $userDetails = User::where('id',$user_id)->first();
+        $shippingDetails = DeliveryAddress::where('user_id',$user_id)->first();
+        $userCart = DB::table('cart')->where(['user_email'=>$user_email])->get();
+        foreach ($userCart as $key => $val) {
+            $productDetails = Product::where('id',$val->product_id)->first();
+            $userCart[$key]->image = $productDetails->product_image;
+        }
+        return view('cart.order_review',['userDetails'=>$userDetails,'shippingDetails'=>$shippingDetails,'userCart'=>$userCart]);
     }
 }
