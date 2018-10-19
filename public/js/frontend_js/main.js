@@ -153,11 +153,10 @@ $().ready(function(){
 				required:true
 			},
 			country:{
-				minlength: 5,
 				required:true
 			},
 			zipcode:{
-				minlength: 4,
+				minlength: 3,
 				required:true
 			},
 			phone:{
@@ -173,23 +172,21 @@ $().ready(function(){
 				accept: "Your Name must be consist of letter only"
 			},
 			address:{
-				minlength: "Your Password must be atleast 5 characters long",
 				required: "Please provide your Address"
 			},
 			city:{
-				minlength: "Your Password must be atleast 3 characters long",
+				minlength: "Your City Name must be atleast 3 characters long",
 				required: "Please provide your City"
 			},
 			country:{
-				minlength: "Your Password must be atleast 5 characters long",
 				required: "Please provide your Country"
 			},
 			zipcode:{
-				minlength: "Your Password must be atleast 4 characters long",
+				minlength: "Your Zipcode must be atleast 3 characters long",
 				required: "Please provide your Zipcode"
 			},
 			phone:{
-				minlength: "Your Password must be atleast 5 characters long",
+				minlength: "Your Phone number must be atleast 5 characters long",
 				required: "Please provide your Phone"
 			}
 		}
@@ -308,3 +305,12 @@ $(document).ready(function(){
 		}
 	})
 });
+
+function selectPaymentMethod(){
+	if($('#Paypal').is(':checked') || $('#COD').is(':checked')){
+
+	}else{
+		alert('Please select Payment Method');
+		return false;
+	}
+}

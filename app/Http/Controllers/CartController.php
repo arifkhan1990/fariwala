@@ -12,6 +12,8 @@ use Auth;
 use App\User;
 use App\Country;
 use App\DeliveryAddress;
+use App\Order;
+use App\OrdersProduct;
 
 session_start();
 
@@ -22,14 +24,17 @@ class CartController extends Controller
       Session::forget('CouponCode');
 
     	$data = $request->all();
-    	if(empty($data['user_email'])){
+    	if(empty(Auth::user()->email)){
     		$data['user_email'] = '';
-    	}
+    	}else{
+            $data['user_email'] = Auth::user()->email;
+        }
         
         $session_id = Session::get('session_id');
+        // echo $session_id;die;
         if(empty($session_id)){
         	$session_id = str_random(40);
-        	Session::put('session_id',$session_id);
+        	$request->session()->put('session_id',$session_id);
         }
 
         //Deleting extra '-' char
@@ -60,8 +65,17 @@ class CartController extends Controller
     }
 
     public function cart(){
-    	$session_id = Session::get('session_id');
-    	$userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+
+        if(Auth::check()){
+            $user_email = Auth::user()->email;
+            $userCart = DB::table('cart')->where(['user_email'=>$user_email])->get();
+        }else{
+            // $session_id = Session::get('session_id');
+            $session_id = session()->get('session_id');
+            $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+        }
+
+
         foreach ($userCart as $key => $val) {
         	$productDetails = Product::where('id',$val->product_id)->first();
         	$userCart[$key]->image = $productDetails->product_image;
@@ -98,7 +112,7 @@ class CartController extends Controller
         $userDetails = User::find($user_id);
         $countries = Country::get();
         $shippingCount = DeliveryAddress::where('user_id',$user_id)->count();
-        $shippingDetails = "";
+        $shippingDetails = array();
         if($shippingCount > 0){
             $shippingDetails = DeliveryAddress::where('user_id',$user_id)->first();
         }
@@ -147,5 +161,83 @@ class CartController extends Controller
             $userCart[$key]->image = $productDetails->product_image;
         }
         return view('cart.order_review',['userDetails'=>$userDetails,'shippingDetails'=>$shippingDetails,'userCart'=>$userCart]);
+    }
+
+    public function placeOrder(Request $request){
+       if($request->isMethod('post')){
+        $data = $request->all();
+        $user_id = Auth::user()->id;
+        $user_email = Auth::user()->email;
+
+        // Get Shipping address of user
+        $shippingDetails  = DeliveryAddress::where(['user_email' => $user_email])->first();
+        
+        if(empty(Session::get('CouponCode')))
+            $coupon_code = "";
+        else
+            $coupon_code = Session::get('CouponCode');
+        if(empty(Session::get('CouponAmount')))
+            $coupon_amount = '';
+        else
+            $coupon_amount = Session::get('CouponAmount');
+
+        // if(empty($data['shipping_charges']))
+        //     $data['shipping_charges'] = 0.0;
+
+        $order = new Order();
+        $order->user_id = $user_id;
+        $order->user_email = $user_email;
+        $order->name = $shippingDetails->name;
+        $order->address = $shippingDetails->address;
+        $order->city = $shippingDetails->city;
+        $order->state = $shippingDetails->state;
+        $order->pincode = $shippingDetails->pincode;
+        $order->country = $shippingDetails->country;
+        $order->mobile = $shippingDetails->phone;
+        $order->coupon_code = $coupon_code;
+        $order->coupon_amount = $coupon_amount;
+        $order->order_status = "New";
+        $order->payment_method = $data['payment_method'];
+        $order->grand_total = $data['grand_total'];
+        $order->save();
+
+        $order_id = DB::getPdo()->lastInsertId();
+
+        $cartProducts = DB::table('cart')->where(['user_email'=>$user_email])->get();
+        foreach ($cartProducts as $pro) {
+            $cartPro = new OrdersProduct;
+            $cartPro->order_id = $order_id;
+            $cartPro->user_id = $user_id;
+            $cartPro->product_id = $pro->product_id;
+            $cartPro->product_code = $pro->product_code;
+            $cartPro->product_name = $pro->product_name;
+            $cartPro->product_color = $pro->product_color;
+            $cartPro->product_size = $pro->product_size;
+            $cartPro->product_price = $pro->product_price;
+            $cartPro->product_qty = $pro->quantity;
+            $cartPro->save();
+        }
+        Session::put('order_id',$order_id);
+        Session::put('grand_total',$data['grand_total']);
+
+        if($data['payment_method'] == "COD"){
+         return redirect('/thanks');
+        }else{
+         return redirect('/paypal');
+        }
+
+       }
+    }
+
+    public function thanks(Request $request){
+        $user_email = Auth::user()->email;
+        DB::table('cart')->where('user_email',$user_email)->delete();
+        return view('orders.thanks');
+    }
+
+    public function paypal(Request $request){
+        $user_email = Auth::user()->email;
+        DB::table('cart')->where('user_email',$user_email)->delete();
+        return view('orders.paypal');
     }
 }

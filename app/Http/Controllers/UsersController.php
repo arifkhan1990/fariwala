@@ -8,6 +8,7 @@ use Session;
 use App\User;
 use App\Country;
 use Auth;
+use DB;
 
 class UsersController extends Controller
 {
@@ -16,6 +17,11 @@ class UsersController extends Controller
 			$data = $request->all();
 			if(Auth::attempt(['email'=>$data['email'],'password'=>$data['password']])){
 				Session::put('frontSession',$data['email']);
+
+                if(!empty(Session::get('session_id'))){
+                    $session_id = Session::get('session_id');
+                    DB::table('cart')->where('session_id',$session_id)->update(['user_email' => $data['email']]);
+                }
 				return redirect('/cart');
 			}else{
 				return redirect()->back()->with('flash_message_error','Invalid Email or Password');
@@ -27,6 +33,7 @@ class UsersController extends Controller
     public function userRegister(Request $request){
     	if($request->isMethod('post')){
     		$data = $request->all();
+
     		// Check if user already exists
     		$usersCount = User::where(['email'=>$data['email']])->count();
     		if($usersCount > 0){

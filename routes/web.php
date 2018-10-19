@@ -14,12 +14,8 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-
 //Here All Frontend route
 
-
-
-//Here all Backend route
 Route::match(['get','post'],'/admin','AdminController@login');
 
 
@@ -53,10 +49,17 @@ Route::group(['middleware'=>['frontlogin']],function(){
     Route::post('/update-user-password','UsersController@updateUserPassword');
     Route::match(['get','post'],'/checkout','CartController@checkOut');
     Route::match(['get','post'],'/order-review','CartController@orderReview');
+    Route::match(['get','post'],'/place-order','CartController@placeOrder');
+    Route::get('/thanks','CartController@thanks'); // Thankyou page
+    Route::get('/paypal','CartController@paypal'); // Paypal page
+    Route::get('/orders','OrdersController@userOrders');
+    // User orders products page
+    Route::get('/orders/{id}','OrdersController@userOrdersDetails');
 });
 // Check user email already exists.........................
 Route::match(['get','post'],'/check-email','UsersController@checkEmail');
 
+//Here all Backend route
 Route::group(['middleware' => ['auth']], function(){
 	Route::get('/admin/dashboard','AdminController@dashboard');
 	Route::get('/settings','AdminController@settings');

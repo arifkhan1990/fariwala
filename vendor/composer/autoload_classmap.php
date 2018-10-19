@@ -6,9 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Banner' => $baseDir . '/app/Banner.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Country' => $baseDir . '/app/Country.php',
     'App\\Coupon' => $baseDir . '/app/Coupon.php',
+    'App\\DeliveryAddress' => $baseDir . '/app/DeliveryAddress.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AdminController' => $baseDir . '/app/Http/Controllers/AdminController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -16,6 +19,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
+    'App\\Http\\Controllers\\BannersController' => $baseDir . '/app/Http/Controllers/BannersController.php',
     'App\\Http\\Controllers\\CartController' => $baseDir . '/app/Http/Controllers/CartController.php',
     'App\\Http\\Controllers\\CategoryController' => $baseDir . '/app/Http/Controllers/CategoryController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
@@ -23,10 +27,12 @@ return array(
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\IndexController' => $baseDir . '/app/Http/Controllers/IndexController.php',
     'App\\Http\\Controllers\\ProductsController' => $baseDir . '/app/Http/Controllers/ProductsController.php',
+    'App\\Http\\Controllers\\UsersController' => $baseDir . '/app/Http/Controllers/UsersController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
+    'App\\Http\\Middleware\\Frontlogin' => $baseDir . '/app/Http/Middleware/Frontlogin.php',
     'App\\Http\\Middleware\\RedirectIfAuthenticated' => $baseDir . '/app/Http/Middleware/RedirectIfAuthenticated.php',
     'App\\Http\\Middleware\\TrimStrings' => $baseDir . '/app/Http/Middleware/TrimStrings.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',

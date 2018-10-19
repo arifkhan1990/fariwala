@@ -123,16 +123,24 @@
 											<td><span><?php echo $totalAmount; ?> Tk.</span></td>
 										</tr>
 										<tr>
-											<td>Exo Tax</td>
+											<td>Shipping Cost(+)</td>
 											<td>Free</td>
 										</tr>
 										<tr class="shipping-cost">
-											<td>Shipping Cost</td>
-											<td>Free</td>
+											<td>Discount Amount(-)</td>
+											<td>
+												@if(!empty(Session::get('CouponAmount')))
+												   {{ Session::get('CouponAmount') }}
+												@else
+												    0
+												@endif
+											</td>
 										</tr>
 										<tr>
 											<td>Total</td>
-											<td><span><?php echo $totalAmount; ?> Tk.</span></td>
+											<td>
+												<span>{{ $grand_total = $totalAmount - Session::get('CouponAmount') }} Tk.</span>
+											</td>
 										</tr>
 									</table>
 								</td>
@@ -140,17 +148,24 @@
 						</tbody>
 					</table>
 				</div>
+				<form name="paymentForm" id="paymentForm" action="{{ url('/place-order')}}" method="post">
+					{{ csrf_field() }}
+					<input type="hidden" name="grand_total" value="{{ $grand_total }}">
 				<div class="payment-options">
 					<span>
-						<label><input type="checkbox"> Direct Bank Transfer</label>
+						<label><strong>Select Payment Method:</strong></label>
 					</span>
 					<span>
-						<label><input type="checkbox"> Check Payment</label>
+						<label><input type="radio" name="payment_method" id="COD" value="COD"><strong> COD</strong></label>
 					</span>
 					<span>
-						<label><input type="checkbox"> Paypal</label>
+						<label><input type="radio" name="payment_method" id="Paypal" value="Paypal"><strong> Paypal</strong></label>
+					</span>
+					<span style="float: right;">
+						<button type="submit" class="btn btn-success" onclick="return selectPaymentMethod();">Place Order</button>
 					</span>
 				</div>
+			    </form>
 			</div>
 			</section> <!--/#cart_items-->
 			@endsection

@@ -7,6 +7,7 @@ use App\Coupon;
 use DB;
 use App\Cart;
 use Session;
+use Auth;
 session_start();
 
 class CouponsController extends Controller
@@ -63,12 +64,18 @@ class CouponsController extends Controller
          return redirect()->back()->with('flash_message_success','Coupon Active successfully !!');
     }
 
+    public function deleteCoupon($id = null){
+    	Coupon::where(['id'=>$id])->delete();
+    	return redirect()->back()->with('flash_message_success','Coupon has been deleted successfully!');
+    }
+
     public function applyCoupon(Request $request){
         Session::forget('CouponAmount');
         Session::forget('CouponCode');
 
         $data = $request->all();
         $couponCount = Coupon::where('coupon_code',$data['coupon_code'])->count();
+
         if($couponCount == 0){
             return redirect()->back()->with('flash_message_error','The Coupon is not exists!');
         }else{
@@ -89,16 +96,26 @@ class CouponsController extends Controller
 
            //Get cart total amount
            $session_id = Session::get('session_id');
-           $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+
+          if(Auth::check()){
+              $user_email = Auth::user()->email;
+              $userCart = DB::table('cart')->where(['user_email'=>$user_email])->get();
+          }else{
+              // $session_id = Session::get('session_id');
+              $session_id = session()->get('session_id');
+              $userCart = DB::table('cart')->where(['session_id'=>$session_id])->get();
+          }
+
            $total_amount = 0;
            foreach ($userCart as $item) {
-               $total_amount = $total_amount + ($item->product_price * $item->quantity);
+              $total_amount = $total_amount + ($item->product_price * $item->quantity);
            }
+
           // Check if amount type is Fixed or Percentage
            if($couponDetails->amount_type == "Fixed"){
-            $couponAmount = $couponDetails->amount;
-           }else{
-            $couponAmount = $total_amount * ($couponDetails->amount/100);
+               $couponAmount = $couponDetails->amount;
+           }else if($couponDetails->amount_type == "Percentage"){
+               $couponAmount = $total_amount * ($couponDetails->amount / 100);
            }
 
            Session::put('CouponAmount',$couponAmount);
@@ -106,10 +123,5 @@ class CouponsController extends Controller
 
            return redirect()->back()->with('flash_message_success','Coupon code successfully applied. You are availing discount!');
         }
-    }
-
-    public function deleteCoupon($id = null){
-    	Coupon::where(['id'=>$id])->delete();
-    	return redirect()->back()->with('flash_message_success','Coupon has been deleted successfully!');
     }
 }

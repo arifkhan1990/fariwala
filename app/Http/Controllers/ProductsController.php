@@ -10,8 +10,11 @@ use Session;
 use App\Category;
 use App\Product;
 use App\ProductsAttribute;
+use App\Coupon;
+use App\Cart;
 use DB;
 use App\ProductsImage;
+
 class ProductsController extends Controller
 {
     //Products Add , View , Edit, Single Product View, Delete Product Image , Delete Product, Product Active and Unactive  functionality.......
