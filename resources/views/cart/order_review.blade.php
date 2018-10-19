@@ -123,16 +123,24 @@
 											<td><span><?php echo $totalAmount; ?> Tk.</span></td>
 										</tr>
 										<tr>
-											<td>Exo Tax</td>
+											<td>Shipping Cost(+)</td>
 											<td>Free</td>
 										</tr>
 										<tr class="shipping-cost">
-											<td>Shipping Cost</td>
-											<td>Free</td>
+											<td>Discount Amount(-)</td>
+											<td>
+												@if(!empty(Session::get('CouponAmount')))
+												   {{ Session::get('CouponAmount') }}
+												@else
+												    0
+												@endif
+											</td>
 										</tr>
 										<tr>
 											<td>Total</td>
-											<td><span><?php echo $totalAmount; ?> Tk.</span></td>
+											<td>
+												<span>{{ $totalAmount - Session::get('CouponAmount') }} Tk.</span>
+											</td>
 										</tr>
 									</table>
 								</td>

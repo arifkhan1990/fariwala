@@ -27,6 +27,7 @@ class UsersController extends Controller
     public function userRegister(Request $request){
     	if($request->isMethod('post')){
     		$data = $request->all();
+
     		// Check if user already exists
     		$usersCount = User::where(['email'=>$data['email']])->count();
     		if($usersCount > 0){

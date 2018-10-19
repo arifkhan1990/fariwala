@@ -28,33 +28,33 @@
 							<div class="login-form">
 								<h2 class="col-sm-offset-2">Bill To</h2>
 								<div class="form-group">
-									<input type="text" placeholder="Billing Name *" id="billing_name" name="billing_name" value="{{ $userDetails->name }}" required="" class="form-control">
+									<input type="text" placeholder="Billing Name *" id="billing_name" name="billing_name" @if(!empty($userDetails->name)) value="{{ $userDetails->name }}" @endif required="" class="form-control">
 								</div>
 								<div class="form-group">
-									<input type="text" value="{{ $userDetails->address }}" id="billing_address" placeholder="Billing Address*" name="billing_address" required="" class="form-control">
+									<input type="text" @if(!empty($userDetails->address)) value="{{ $userDetails->address }}" @endif id="billing_address" placeholder="Billing Address*" name="billing_address" required="" class="form-control">
 								</div>
 								<div class="form-group">
-									<input type="text" value="{{ $userDetails->city }}" placeholder="Billing City *" id="billing_city" name="billing_city" required="" class="form-control">
+									<input type="text" @if(!empty($userDetails->city)) value="{{ $userDetails->city }}" @endif placeholder="Billing City *" id="billing_city" name="billing_city" required="" class="form-control">
 								</div>
 								<div class="form-group">
-									<input type="text" value="{{ $userDetails->state }}" placeholder="Billing State *" id="billing_state" name="billing_state" required="" class="form-control">
+									<input type="text" @if(!empty($userDetails->state)) value="{{ $userDetails->state }}" @endif placeholder="Billing State *" id="billing_state" name="billing_state" required="" class="form-control">
 								</div>
 								<div class="form-group">
 									<select id="billing_country" name="billing_country" class="form-control">
 										<option value="">Select Country</option>
 										@foreach($countries as $country)
 										<option value="{{ $country->country_name }}"
-											@if($country->country_name == $userDetails->country)
+											@if(!empty($userDetails->country) && $country->country_name == $userDetails->country)
 											selected @endif > {{ $country->country_name }}
 										</option>
 										@endforeach
 									</select>
 								</div>
 								<div class="form-group">
-									<input type="text" value="{{ $userDetails->zipcode }}" placeholder="Billing PinCode *" name="billing_pincode" id="billing_pincode" required="" style="margin-top: 10px;" class="form-control">
+									<input type="text" @if(!empty($userDetails->zipcode)) value="{{ $userDetails->zipcode }}" @endif placeholder="Billing PinCode *" name="billing_pincode" id="billing_pincode" required="" style="margin-top: 10px;" class="form-control">
 								</div>
 								<div class="form-group">
-									<input type="text" value="{{ $userDetails->phone }}" placeholder="Billing Mobile Number *" id="billing_phone" name="billing_phone" required="" class="form-control">
+									<input type="text" @if(!empty($userDetails->phone)) value="{{ $userDetails->phone }}" @endif placeholder="Billing Mobile Number *" id="billing_phone" name="billing_phone" required="" class="form-control">
 								</div>
 								<div class="form-check">
 									<input type="checkbox" name="" class="form-check-input" id="billtoship">

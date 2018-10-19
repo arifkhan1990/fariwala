@@ -98,7 +98,7 @@ class CartController extends Controller
         $userDetails = User::find($user_id);
         $countries = Country::get();
         $shippingCount = DeliveryAddress::where('user_id',$user_id)->count();
-        $shippingDetails = "";
+        $shippingDetails = array();
         if($shippingCount > 0){
             $shippingDetails = DeliveryAddress::where('user_id',$user_id)->first();
         }
