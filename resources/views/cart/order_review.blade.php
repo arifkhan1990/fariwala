@@ -140,6 +140,7 @@
 											<td>Total</td>
 											<td>
 												<span>{{ $grand_total = $totalAmount - Session::get('CouponAmount') }} Tk.</span>
+												<span>{{ $totalAmount - Session::get('CouponAmount') }} Tk.</span>
 											</td>
 										</tr>
 									</table>

@@ -78,7 +78,7 @@
                   </td>
                 </tr>
               </tbody>
-              <div id="myModal{{$product->id}}" class="modal hide" style="display: none;" aria-hidden="true">
+              <div id="myModal{{$product->id}}" class="modal hide" style="displa: inline;" aria-hidden="true">
                 <div class="modal-header">
                   <button data-dismiss="modal" class="close" type="button">×</button>
                   <h3><strong>{{ $product->product_name }} -> </strong>Full Details</h3>
